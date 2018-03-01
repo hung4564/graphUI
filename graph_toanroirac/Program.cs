@@ -21,8 +21,8 @@ namespace graph_toanroirac
             {
                 for (int j = i; j < n; j++)
                 {
-                    Console.Write("a[{0}:{1}]=",i,j);
-                    a[i,j] = int.Parse(Console.ReadLine());
+                    Console.Write("a[{0}:{1}]=", i, j);
+                    a[i, j] = int.Parse(Console.ReadLine());
                     a[j, i] = a[i, j];
                 }
             }
@@ -38,7 +38,7 @@ namespace graph_toanroirac
             {
                 for (int j = 0; j < n; j++)
                 {
-                    Console.Write(a[i,j]+" ");
+                    Console.Write(a[i, j] + " ");
                 }
                 Console.Write("\n");
             }
@@ -48,7 +48,7 @@ namespace graph_toanroirac
         /// </summary>
         /// <param name="a">Mảng chứa dữ liệu</param>
         /// <param name="n">số lượng phần tử</param>
-        static void ReadMatrix(int[,]a,out int n)
+        static void ReadMatrix(int[,] a, out int n)
         {
             string path = "matrix.txt";
             if (File.Exists(path))
@@ -59,8 +59,8 @@ namespace graph_toanroirac
                 {
                     // Doc file, lay tung hang roi tach tung cot cho vao ma tran
                     string matrix = sr.ReadToEnd();
-                    while(matrix.IndexOf("\r")>0)
-                    matrix=matrix.Remove(matrix.IndexOf("\r"), 1);
+                    while (matrix.IndexOf("\r") > 0)
+                        matrix = matrix.Remove(matrix.IndexOf("\r"), 1);
                     string[] rows = matrix.Split('\n');
                     n = rows.Count();
                     for (int i = 0; i < rows.Count(); i++)
@@ -76,7 +76,7 @@ namespace graph_toanroirac
             else
             {
                 File.Create(path);
-                NhapMatrix(a, out n);                
+                NhapMatrix(a, out n);
             }
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace graph_toanroirac
         /// </summary>
         /// <param name="a">Mảng chứa dữ liệu</param>
         /// <param name="n">số lượng phần tử</param>
-        static void WriteMarix(int[,] a,out int n)
+        static void WriteMarix(int[,] a, out int n)
         {
             string path = "matrix.txt";
             NhapMatrix(a, out n);
@@ -99,9 +99,9 @@ namespace graph_toanroirac
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        sw.Write(a[i, j].ToString()+ " ");
+                        sw.Write(a[i, j].ToString() + " ");
                     }
-                    if(i!=n-1)sw.WriteLine();
+                    if (i != n - 1) sw.WriteLine();
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace graph_toanroirac
                     if (DanhDau[i] == 1)
                     {
                         for (int j = 0; j < n; j++)
-                            if (DanhDau[j] == 0 && A[i,j] > 0)
+                            if (DanhDau[j] == 0 && A[i, j] > 0)
                             {
                                 DanhDau[j] = 1;
                                 ThanhCong = 0;  //Thực tế còn khả năng loang
@@ -142,7 +142,7 @@ namespace graph_toanroirac
         /// <param name="a">ma trận cần kiểm tra</param>
         /// <param name="n">số cạnh của ma trận</param>
         /// <returns>Trả về đúng nếu là ma trận đầy đủ</returns>
-        static bool Is_daydu(int[,] a,int n)
+        static bool Is_daydu(int[,] a, int n)
         {
             for (int i = 0; i < n; i++)
             {
@@ -153,14 +153,71 @@ namespace graph_toanroirac
             }
             return true;
         }
-
+        /// <summary>
+        /// Duyệt theo chiều sâu
+        /// </summary>
+        /// <param name="a">Mảng chứa đồ thị cần duyệt</param>
+        /// <param name="n">số đỉnh</param>
+        /// <param name="start">đỉnh bắt đầu(mặc định là đỉnh 0)</param>
+        static void Travel_Deep(int[,] a, int n, int start = 0)
+        {
+            bool[] visit = new bool[n];
+            Stack<int> stack = new Stack<int>();
+            stack.Push(start);
+            while (stack.Count > 0)
+            {
+                int current = stack.Pop();
+                if(!visit[current])
+                {
+                    visit[current] = true;
+                    Console.Write(current + 1 + "->");
+                    for (int i = 0; i < n; i++)
+                    {
+                        // Nếu là đỉnh kề và chưa được ghé thăm
+                        if (a[current, i] == 1 && !visit[i])
+                        {
+                            stack.Push(i);
+                        }
+                    }
+                }                
+            }
+        }
+        /// <summary>
+        /// Duyệt theo chiều rộng
+        /// </summary>
+        /// <param name="a">Mảng chứa đồ thị cần duyệt</param>
+        /// <param name="n">số đỉnh</param>
+        /// <param name="start">đỉnh bắt đầu(mặc định là đỉnh 0)</param>
+        static void Travel_Breadth(int[,] a, int n, int start = 0)
+        {
+            bool[] visit = new bool[n];
+            Queue<int> queue = new Queue<int>();
+            queue.Enqueue(start);
+            while (queue.Count > 0)
+            {
+                int current = queue.Dequeue();
+                if (!visit[current])
+                {
+                    visit[current] = true;
+                    Console.Write(current + 1 + "->");
+                    for (int i = 0; i < n; i++)
+                    {
+                        // Nếu là đỉnh kề và chưa được ghé thăm
+                        if (a[current, i] == 1 && !visit[i])
+                        {
+                            queue.Enqueue(i);
+                        }
+                    }
+                }
+            }
+        }
         static void Main(string[] args)
         {
-            int n=0;
+            int n = 0;
             int[,] matrix = new int[50, 50];
-            ReadMatrix(matrix,out n);
+            ReadMatrix(matrix, out n);
             XuatMatrix(matrix, n);
-            if (Is_lienthong(matrix,n)) Console.WriteLine("Lien thong"); else Console.WriteLine("Khong lien thong");
+            Travel_Deep(matrix, n);
             Console.ReadKey();
         }
     }
