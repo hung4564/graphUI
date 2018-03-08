@@ -38,7 +38,7 @@ namespace graph_toanroirac
             {
                 for (int j = 0; j < n; j++)
                 {
-                    Console.Write(a[i, j] + " ");
+                    Console.Write("{0,2} ", a[i, j]);
                 }
                 Console.Write("\n");
             }
@@ -211,11 +211,16 @@ namespace graph_toanroirac
                 }
             }
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Kruskal
+        /// </summary>
+        /// <param name="a">Mảng chứa danh sách kề</param>
+        /// <param name="n">Số đỉnh</param>
         static void Kruskal(int[,] a, int n)
         {
-            List<Edge> list = matrix_edge_convert(a, n);
+            EdgeCollection list = matrix_edge_convert(a, n);
             list.Sort();
-            List<Edge> listResult = new List<Edge>();
+            EdgeCollection listResult = new EdgeCollection();
             //danh dau nhan i cho dinh i
             int[] label = new int[n];
             for (int i = 0; i < n; i++)
@@ -226,18 +231,18 @@ namespace graph_toanroirac
             int lab2 = 0;
             foreach (Edge item in list)
             {
-                if(label[item.start]!=label[item.end])
+                if (label[item.start.Index] != label[item.end.Index])
                 {
                     listResult.Add(item);
-                    if(label[item.start] > label[item.end])
+                    if (label[item.start.Index] > label[item.end.Index])
                     {
-                        lab1 = label[item.end];
-                        lab2 = label[item.start];                           
+                        lab1 = label[item.end.Index];
+                        lab2 = label[item.start.Index];
                     }
                     else
                     {
-                        lab2 = label[item.end];
-                        lab1 = label[item.start];
+                        lab2 = label[item.end.Index];
+                        lab1 = label[item.start.Index];
                     }
                     for (int i = 0; i < n; i++)
                     {
@@ -249,85 +254,60 @@ namespace graph_toanroirac
             {
                 Console.WriteLine(item.ToString());
             }
-        }
-        static List<Edge> matrix_edge_convert(int[,] a, int n)
+        } 
+        /// <summary>
+        /// Chuyển ma trận kề về danh sách các cạnh
+        /// </summary>
+        /// <param name="a">ma trận kề</param>
+        /// <param name="n">số đỉnh</param>
+        /// <returns>Danh sách cạnh</returns>
+        static EdgeCollection matrix_edge_convert(int[,] a, int n)
         {
-            List<Edge> listEdge = new List<Edge>();
+            EdgeCollection listEdge = new EdgeCollection();
             Edge edge;
             for (int i = 0; i < n; i++)
             {
+                Node start = new Node(i);
                 for (int j = i; j < n; j++)
                 {
                     if (a[i, j] > 0)
                     {
-                        edge = new Edge(i, j, a[i, j]);
+                        Node end = new Node(j);
+                        edge = new Edge(start, end, a[i, j]);
                         listEdge.Add(edge);
                     }
                 }
             }
-           // listEdge.Sort();
+            // listEdge.Sort();
             return listEdge;
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Prime
+        /// </summary>
+        /// <param name="a">Mảng chứa danh sách kề</param>
+        /// <param name="n">Số đỉnh</param>
+        /// <param name="start">Đỉnh bắt đầu</param>
         static void Prime(int[,] matrix, int n, int start = 0)
         {
-            List<int> list_dinh = new List<int>();
-            List<int> list_result = new List<int>();
-            for (int i = 0; i < n; i++)
-            {
-                list_dinh.Add(i);
-            }
-            while(list_dinh.Count>0)
-            {
-            }
         }
-        class Edge : IEquatable<Edge>, IComparable<Edge>
-        {
-            public int start;
-            public int end;
-            int weight;
 
-            public Edge(int start, int end, int weight)
-            {
-                this.start = start;
-                this.end = end;
-                this.weight = weight;
-            }
-
-            public override string ToString()
-            {
-                return string.Format("{0}->{1}:{2}", start+1, end+1, weight);
-            }
-            public int CompareTo(Edge other)
-            {
-                if (other == null)
-                    return 1;
-
-                else
-                    return this.weight.CompareTo(other.weight);
-            }
-            public override bool Equals(object obj)
-            {
-                if (obj == null) return false;
-                Edge objAsEdge = obj as Edge;
-                if (objAsEdge == null) return false;
-                else return Equals(objAsEdge);
-            }
-            public override int GetHashCode()
-            {
-                return weight;
-            }
-            public bool Equals(Edge other)
-            {
-                if (other == null) return false;
-                return (this.weight.Equals(other.weight));
-            }
-        }
         static void Main(string[] args)
         {
-            int n = 0;
-            int[,] matrix = new int[50, 50];
-            ReadMatrix(matrix, out n);
-            Kruskal(matrix, n);
+            NodeCollection nodeCollection = new NodeCollection();
+            for (int i = 0; i < 5; i++)
+            {
+                nodeCollection.Add(new Node());
+            }
+            foreach (Node item in nodeCollection)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            Console.WriteLine("xoa dinh 2");
+            nodeCollection.Remove(new Node(2));
+            foreach (Node item in nodeCollection)
+            {
+                Console.WriteLine(item.ToString());
+            }
             Console.ReadKey();
         }
     }
