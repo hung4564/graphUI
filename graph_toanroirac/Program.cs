@@ -38,7 +38,7 @@ namespace graph_toanroirac
             {
                 for (int j = 0; j < n; j++)
                 {
-                    Console.Write(a[i, j] + " ");
+                    Console.Write("{0,2} ", a[i, j]);
                 }
                 Console.Write("\n");
             }
@@ -211,11 +211,16 @@ namespace graph_toanroirac
                 }
             }
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Kruskal
+        /// </summary>
+        /// <param name="a">Mảng chứa danh sách kề</param>
+        /// <param name="n">Số đỉnh</param>
         static void Kruskal(int[,] a, int n)
         {
-            List<Edge> list = matrix_edge_convert(a, n);
+            EdgeCollection list = matrix_edge_convert(a, n);
             list.Sort();
-            List<Edge> listResult = new List<Edge>();
+            EdgeCollection listResult = new EdgeCollection();
             //danh dau nhan i cho dinh i
             int[] label = new int[n];
             for (int i = 0; i < n; i++)
@@ -226,13 +231,13 @@ namespace graph_toanroirac
             int lab2 = 0;
             foreach (Edge item in list)
             {
-                if(label[item.start]!=label[item.end])
+                if (label[item.start] != label[item.end])
                 {
                     listResult.Add(item);
-                    if(label[item.start] > label[item.end])
+                    if (label[item.start] > label[item.end])
                     {
                         lab1 = label[item.end];
-                        lab2 = label[item.start];                           
+                        lab2 = label[item.start];
                     }
                     else
                     {
@@ -249,10 +254,16 @@ namespace graph_toanroirac
             {
                 Console.WriteLine(item.ToString());
             }
-        }
-        static List<Edge> matrix_edge_convert(int[,] a, int n)
+        } 
+        /// <summary>
+        /// Chuyển ma trận kề về danh sách các cạnh
+        /// </summary>
+        /// <param name="a">ma trận kề</param>
+        /// <param name="n">số đỉnh</param>
+        /// <returns>Danh sách cạnh</returns>
+        static EdgeCollection matrix_edge_convert(int[,] a, int n)
         {
-            List<Edge> listEdge = new List<Edge>();
+            EdgeCollection listEdge = new EdgeCollection();
             Edge edge;
             for (int i = 0; i < n; i++)
             {
@@ -265,69 +276,78 @@ namespace graph_toanroirac
                     }
                 }
             }
-           // listEdge.Sort();
+            // listEdge.Sort();
             return listEdge;
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Prime
+        /// </summary>
+        /// <param name="a">Mảng chứa danh sách kề</param>
+        /// <param name="n">Số đỉnh</param>
+        /// <param name="start">Đỉnh bắt đầu</param>
         static void Prime(int[,] matrix, int n, int start = 0)
         {
-            List<int> list_dinh = new List<int>();
-            List<int> list_result = new List<int>();
+            List<int> list_dinh = new List<int>();//chứa các đỉnh chưa đi qua
+            List<int> list_result = new List<int>();//chứa các đỉnh kết quảsu
+            EdgeCollection edge_result = new EdgeCollection();// chứa các cạnh
             for (int i = 0; i < n; i++)
             {
                 list_dinh.Add(i);
             }
-            while(list_dinh.Count>0)
+            list_dinh.Remove(start);
+            list_result.Add(start);
+            while (list_dinh.Count > 0)
             {
+                int min = 0;
+                int dinh_chovao = 0;
+                Edge edge=new Edge();
+                EdgeCollection edgeCollection = matrix_edge_convert(matrix, n);
+                // kiểm tra các đỉnh kể vs đỉnh trong kết quả
+                foreach (int result in list_result)
+                {
+                    EdgeCollection edges = edgeCollection[result];
+                    foreach (Edge item in edges)
+                    {
+                        if(min==0)
+                        {
+                            edge = item;
+                        }
+                    }
+                    foreach (int dinh in list_dinh)
+                    {
+                        // tìm kiếm cạnh có trọng số nhỏ nhất
+                        if(matrix[result, dinh] > 0)
+                        if (min == 0)
+                        {
+                            min = matrix[result, dinh];
+                            dinh_chovao = dinh;
+                            edge = new Edge(result, dinh, matrix[result, dinh]);
+                        }
+                        else if (min > matrix[result, dinh])
+                        {
+                            min = matrix[result, dinh];
+                            dinh_chovao = dinh;
+                            edge = new Edge(result, dinh, matrix[result, dinh]);
+                        }
+                    }
+                }
+                list_dinh.Remove(dinh_chovao);
+                list_result.Add(dinh_chovao);
+                edge_result.Add(edge);
+            }
+            foreach (var item in edge_result)
+            {
+                Console.WriteLine(item.ToString());
             }
         }
-        class Edge : IEquatable<Edge>, IComparable<Edge>
-        {
-            public int start;
-            public int end;
-            int weight;
 
-            public Edge(int start, int end, int weight)
-            {
-                this.start = start;
-                this.end = end;
-                this.weight = weight;
-            }
-
-            public override string ToString()
-            {
-                return string.Format("{0}->{1}:{2}", start+1, end+1, weight);
-            }
-            public int CompareTo(Edge other)
-            {
-                if (other == null)
-                    return 1;
-
-                else
-                    return this.weight.CompareTo(other.weight);
-            }
-            public override bool Equals(object obj)
-            {
-                if (obj == null) return false;
-                Edge objAsEdge = obj as Edge;
-                if (objAsEdge == null) return false;
-                else return Equals(objAsEdge);
-            }
-            public override int GetHashCode()
-            {
-                return weight;
-            }
-            public bool Equals(Edge other)
-            {
-                if (other == null) return false;
-                return (this.weight.Equals(other.weight));
-            }
-        }
         static void Main(string[] args)
         {
             int n = 0;
             int[,] matrix = new int[50, 50];
             ReadMatrix(matrix, out n);
-            Kruskal(matrix, n);
+            XuatMatrix(matrix, n);
+            Prime(matrix, n,3);
             Console.ReadKey();
         }
     }
