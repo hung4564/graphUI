@@ -38,7 +38,7 @@ namespace graph_toanroirac
 
         public override string ToString()
         {
-            return string.Format("{0}->{1}:{2}", start.Index, end.Index, weight);
+            return string.Format("{0}->{1}:{2}", start.Index+1, end.Index+1, weight);
         }
         public int CompareTo(Edge other)
         {

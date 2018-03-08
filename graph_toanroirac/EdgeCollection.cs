@@ -1,68 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using System.Collections;
 namespace graph_toanroirac
 {
     class EdgeCollection : IEnumerable<Edge>
     {
+        // Lưu thông tin về các cạnh, chỉ lưu cạnh có hướng, nếu 2 chiều giống nhau thì là coi là 1 cạnh vô hướng
         List<Edge> _list;
-
-        public int SelectedIndex
-        {
-            get;
-            set;
-        }
-        public void Sort()
-        {
-            _list.Sort();
-        }
-        public Edge SelectedItem
-        {
-            get
-            {
-                return _list[this.SelectedIndex];
-            }
-        }
         public EdgeCollection()
         {
             _list = new List<Edge>();
         }
-        public bool Add(Edge edge)
+        public int Count
         {
-            //Kiếm tra có cạnh đó chưa
-            if (!_list.Contains(edge))
-            {
-                Edge newEdge = new Edge(edge.end, edge.start, edge.weight);
-                //Kiểm tra cạnh vô hướng hay có hướng(tức có cạnh có đỉnh ngược)
-                if (!_list.Contains(newEdge))
-                {
-                    edge = _list[_list.IndexOf(newEdge)];
-                    edge.IsUndirected = true;
-                }
-                else
-                {
-                    _list.Add(edge);
-                }
-                return true;
-            }
-            return false;
-        }
-        public void Clear()
-        {
-            _list.Clear();
-        }
-        public bool Contains(Edge edge)
-        {
-            return _list.Contains(edge);
+            get { return _list.Count; }
         }
         /// <summary>
-        /// Trả về cạnh theo đỉnh
-        /// </summary>
-        /// <param name="start">Đỉnh đầu</param>
-        /// <param name="end">Đỉnh cuối</param>
-        /// <returns>Trả về null nếu không tồn tại</returns>
+          /// Trả về cạnh theo đỉnh
+          /// </summary>
+          /// <param name="start">Đỉnh đầu</param>
+          /// <param name="end">Đỉnh cuối</param>
+          /// <returns>Trả về null nếu không tồn tại</returns>
         public Edge this[Node start, Node end]
         {
             get
@@ -99,20 +57,78 @@ namespace graph_toanroirac
                 else return null;
             }
         }
+        public Edge this[int index]
+        {
+            get
+            {
+                return _list[index];
+            }
+        }
+        public void Sort()
+        {
+            _list.Sort();
+        }
+        public void Add(Edge edge)
+        {
+            //Kiếm tra có cạnh đó chưa
+            if (!_list.Contains(edge))
+            {
+                Edge newEdge = new Edge(edge.end, edge.start, edge.weight);
+                //Kiểm tra cạnh vô hướng hay có hướng(tức có cạnh có đỉnh ngược)
+                if (_list.Contains(newEdge))
+                {
+                    edge = _list[_list.IndexOf(newEdge)];
+                    edge.IsUndirected = true;
+                }
+                else
+                {
+                    _list.Add(edge);
+                }
+            }
+        }
+        public void Clear()
+        {
+            _list.Clear();
+        }
+        public bool Contains(Edge edge)
+        {
+            return _list.Contains(edge)|| _list.Contains(new Edge(edge.end,edge.start,edge.weight));
+        }            
         public void RemoveAt(int index)
         {
             _list.RemoveAt(index);
         }
-        public int Count
+        public bool Remove(Edge edge)
         {
-            get { return _list.Count; }
+            return _list.Remove(edge);
+        }
+        public bool RemoveBy(Node node)
+        {
+            foreach (Edge edge in _list)
+            {
+                if (edge.IsUndirected)
+                {
+                    if (edge.start == node || edge.end == node)
+                    {
+                        _list.Remove(edge);
+                    }
+                }
+                else
+                {
+                    if (edge.start == node)
+                    {
+                        _list.Remove(edge);
+                    }
+                }
+            }
+
+            return false;
         }
         public IEnumerator<Edge> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
