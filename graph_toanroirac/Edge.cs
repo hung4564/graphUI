@@ -12,11 +12,11 @@ namespace graph_toanroirac
         /// <summary>
         /// Đỉnh bắt đầu của cạnh
         /// </summary>
-        public int start;
+        public Node start;
         /// <summary>
         /// Đỉnh cuối của cạnh
         /// </summary>
-        public int end;
+        public Node end;
         /// <summary>
         /// Trọng số của cạnh
         /// </summary>
@@ -29,7 +29,7 @@ namespace graph_toanroirac
         {
 
         }
-        public Edge(int start, int end, int weight)
+        public Edge(Node start, Node end, int weight)
         {
             this.start = start;
             this.end = end;
@@ -38,7 +38,7 @@ namespace graph_toanroirac
 
         public override string ToString()
         {
-            return string.Format("{0}->{1}:{2}", start + 1, end + 1, weight);
+            return string.Format("{0}->{1}:{2}", start.Index, end.Index, weight);
         }
         public int CompareTo(Edge other)
         {

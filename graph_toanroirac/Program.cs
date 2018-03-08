@@ -231,18 +231,18 @@ namespace graph_toanroirac
             int lab2 = 0;
             foreach (Edge item in list)
             {
-                if (label[item.start] != label[item.end])
+                if (label[item.start.Index] != label[item.end.Index])
                 {
                     listResult.Add(item);
-                    if (label[item.start] > label[item.end])
+                    if (label[item.start.Index] > label[item.end.Index])
                     {
-                        lab1 = label[item.end];
-                        lab2 = label[item.start];
+                        lab1 = label[item.end.Index];
+                        lab2 = label[item.start.Index];
                     }
                     else
                     {
-                        lab2 = label[item.end];
-                        lab1 = label[item.start];
+                        lab2 = label[item.end.Index];
+                        lab1 = label[item.start.Index];
                     }
                     for (int i = 0; i < n; i++)
                     {
@@ -267,11 +267,13 @@ namespace graph_toanroirac
             Edge edge;
             for (int i = 0; i < n; i++)
             {
+                Node start = new Node(i);
                 for (int j = i; j < n; j++)
                 {
                     if (a[i, j] > 0)
                     {
-                        edge = new Edge(i, j, a[i, j]);
+                        Node end = new Node(j);
+                        edge = new Edge(start, end, a[i, j]);
                         listEdge.Add(edge);
                     }
                 }
@@ -287,58 +289,6 @@ namespace graph_toanroirac
         /// <param name="start">Đỉnh bắt đầu</param>
         static void Prime(int[,] matrix, int n, int start = 0)
         {
-            List<int> list_dinh = new List<int>();//chứa các đỉnh chưa đi qua
-            List<int> list_result = new List<int>();//chứa các đỉnh kết quảsu
-            EdgeCollection edge_result = new EdgeCollection();// chứa các cạnh
-            for (int i = 0; i < n; i++)
-            {
-                list_dinh.Add(i);
-            }
-            list_dinh.Remove(start);
-            list_result.Add(start);
-            while (list_dinh.Count > 0)
-            {
-                int min = 0;
-                int dinh_chovao = 0;
-                Edge edge=new Edge();
-                EdgeCollection edgeCollection = matrix_edge_convert(matrix, n);
-                // kiểm tra các đỉnh kể vs đỉnh trong kết quả
-                foreach (int result in list_result)
-                {
-                    EdgeCollection edges = edgeCollection[result];
-                    foreach (Edge item in edges)
-                    {
-                        if(min==0)
-                        {
-                            edge = item;
-                        }
-                    }
-                    foreach (int dinh in list_dinh)
-                    {
-                        // tìm kiếm cạnh có trọng số nhỏ nhất
-                        if(matrix[result, dinh] > 0)
-                        if (min == 0)
-                        {
-                            min = matrix[result, dinh];
-                            dinh_chovao = dinh;
-                            edge = new Edge(result, dinh, matrix[result, dinh]);
-                        }
-                        else if (min > matrix[result, dinh])
-                        {
-                            min = matrix[result, dinh];
-                            dinh_chovao = dinh;
-                            edge = new Edge(result, dinh, matrix[result, dinh]);
-                        }
-                    }
-                }
-                list_dinh.Remove(dinh_chovao);
-                list_result.Add(dinh_chovao);
-                edge_result.Add(edge);
-            }
-            foreach (var item in edge_result)
-            {
-                Console.WriteLine(item.ToString());
-            }
         }
 
         static void Main(string[] args)

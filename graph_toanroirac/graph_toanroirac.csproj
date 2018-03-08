@@ -43,6 +43,7 @@
     <Compile Include="Edge.cs" />
     <Compile Include="EdgeCollection.cs" />
     <Compile Include="Graph.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -63,7 +63,7 @@ namespace graph_toanroirac
         /// <param name="start">Đỉnh đầu</param>
         /// <param name="end">Đỉnh cuối</param>
         /// <returns>Trả về null nếu không tồn tại</returns>
-        public Edge this[int start, int end]
+        public Edge this[Node start, Node end]
         {
             get
             {
@@ -82,7 +82,7 @@ namespace graph_toanroirac
         /// </summary>
         /// <param name="start">Đỉnh xét</param>
         /// <returns>Null nếu đỉnh không có cạnh kề</returns>
-        public EdgeCollection this[int start]
+        public EdgeCollection this[Node start]
         {
             get
             {
