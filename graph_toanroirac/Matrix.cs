@@ -9,12 +9,18 @@ namespace graph_toanroirac
     class Matrix
     {
         int[,] matrix;
-        int n;
+        public int n;
         public Matrix(int n)
         {
             matrix = new int[n, n];
+            this.n = n;
         }
-        public int this[int x,int y]
+        public Matrix()
+        {
+            this.n = 0;
+            matrix = new int[n, n];
+        }
+        public int this[int x, int y]
         {
             get { return matrix[x, y]; }
             set
@@ -22,7 +28,33 @@ namespace graph_toanroirac
                 matrix[x, y] = value;
             }
         }
-
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Matrix objAsMatrix = obj as Matrix;
+            if (objAsMatrix == null) return false;
+            else return Equals(objAsMatrix);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        public bool Equals(Matrix other)
+        {
+            if (other == null) return false;
+            if (n == other.n)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (matrix[i, j] != other[i, j]) return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Nhập ma trận vuông đối xứng
         /// </summary>
@@ -72,6 +104,7 @@ namespace graph_toanroirac
                         file = file.Remove(file.IndexOf("\r"), 1);
                     string[] rows = file.Split('\n');
                     n = rows.Count();
+                    matrix = new int[n, n];
                     for (int i = 0; i < rows.Count(); i++)
                     {
                         string[] columns = rows[i].Split(' ');
@@ -82,11 +115,6 @@ namespace graph_toanroirac
                     }
                 }
             }
-            else
-            {
-                File.Create(path);
-                NhapMatrix();
-            }
         }
         /// <summary>
         /// Ghi ma trận vào file
@@ -96,21 +124,23 @@ namespace graph_toanroirac
         public void WriteMarix()
         {
             string path = "matrix.txt";
-            NhapMatrix();
-            if (File.Exists(path))
+            if(matrix.Length>0)
             {
-                File.WriteAllText(path, string.Empty);
-            }
-            FileStream inFile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
-            using (var sw = new StreamWriter(inFile))
-            {
-                for (int i = 0; i < n; i++)
+                if (File.Exists(path))
                 {
-                    for (int j = 0; j < n; j++)
+                    File.WriteAllText(path, string.Empty);
+                }
+                FileStream inFile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                using (var sw = new StreamWriter(inFile))
+                {
+                    for (int i = 0; i < n; i++)
                     {
-                        sw.Write(matrix[i, j].ToString() + " ");
+                        for (int j = 0; j < n; j++)
+                        {
+                            sw.Write(matrix[i, j].ToString() + " ");
+                        }
+                        if (i != n - 1) sw.WriteLine();
                     }
-                    if (i != n - 1) sw.WriteLine();
                 }
             }
         }

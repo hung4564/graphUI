@@ -14,11 +14,7 @@ namespace graph_toanroirac
         /// <summary>
         /// true là vô hướng, false là có hướng
         /// </summary>
-        bool IsUndirected;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph"/> class.
-        /// </summary>
-        /// <param name="n">Số đỉnh</param>
+        bool IsUndirected;        
         public Graph(int n)
         {
             this.n = n;
@@ -29,9 +25,24 @@ namespace graph_toanroirac
         public Graph(int n,bool IsUndirected)
         {
             this.n = n;
+            khoitao();
+        }
+        public Graph()
+        {
+            n = 0;
+            khoitao();
+        }
+        public Graph(Matrix matrix)
+        {
+            khoitao();
+            n = matrix.n;
+            matrix_convert(matrix);
+        }
+        void khoitao()
+        {
             edgeList = new EdgeCollection();
             nodeList = new NodeCollection();
-            this.IsUndirected = IsUndirected;
+            this.IsUndirected = false;
         }
         /// <summary>
         /// Kiểm tra tính liên thông của ma trận
@@ -67,25 +78,36 @@ namespace graph_toanroirac
         {
             
         }
-        public EdgeCollection matrix_edge_convert(int[,] a, int n)
+        public void matrix_convert(Matrix a)
         {
-            EdgeCollection listEdge = new EdgeCollection();
-            Edge edge;
+            n = a.n;
             for (int i = 0; i < n; i++)
             {
-                Node start = new Node(i);
-                for (int j = i; j < n; j++)
+                nodeList.Add(new Node(i));
+            }
+            for (int i = 0; i < n; i++)
+            {
+                Node start = nodeList[i];
+                for (int j = 0; j < n; j++)
                 {
-                    if (a[i, j] > 0)
+                    if (a[i, j] != 0)
                     {
-                        Node end = new Node(j);
-                        edge = new Edge(start, end, a[i, j]);
-                        listEdge.Add(edge);
+                        Node end = nodeList[j];
+                        Edge edge = new Edge(start, end, a[i, j]);
+                        edgeList.Add(edge);
                     }
                 }
             }
-            // listEdge.Sort();
-            return listEdge;
+        }
+        public Matrix graph_convert()
+        {
+            Matrix matrix = new Matrix(n);
+            foreach (Edge item in edgeList)
+            {
+                matrix[item.start.Index, item.end.Index] = item.weight;
+                if(item.IsUndirected) matrix[item.end.Index, item.start.Index] = item.weight;
+            }
+            return matrix;
         }
     }
 }

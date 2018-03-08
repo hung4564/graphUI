@@ -39,7 +39,7 @@ namespace graph_toanroirac
         public void Sort()
         {
             _list.Sort();
-        }                
+        }            
         public void Clear()
         {
             _list.Clear();

@@ -62,7 +62,7 @@ namespace graph_toanroirac
         public bool Equals(Edge other)
         {
             if (other == null) return false;
-            return (this.weight.Equals(other.weight));
+            return (this.weight.Equals(other.weight)&&this.start.Equals(other.start)&&this.end.Equals(other.end));
         }
     }
     
