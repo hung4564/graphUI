@@ -293,21 +293,13 @@ namespace graph_toanroirac
 
         static void Main(string[] args)
         {
-            NodeCollection nodeCollection = new NodeCollection();
-            for (int i = 0; i < 5; i++)
-            {
-                nodeCollection.Add(new Node());
-            }
-            foreach (Node item in nodeCollection)
-            {
-                Console.WriteLine(item.ToString());
-            }
-            Console.WriteLine("xoa dinh 2");
-            nodeCollection.Remove(new Node(2));
-            foreach (Node item in nodeCollection)
-            {
-                Console.WriteLine(item.ToString());
-            }
+            Matrix matrix = new Matrix();
+            matrix.ReadMatrix();
+            Graph graph = new Graph(matrix);
+            Matrix a = graph.graph_convert();
+            Console.WriteLine("test chuyen");
+            a.XuatMatrix();
+            if (a.Equals(matrix)) Console.WriteLine("2 ma tran giong nahu"); else Console.WriteLine("2 ma tran khac nahu");
             Console.ReadKey();
         }
     }

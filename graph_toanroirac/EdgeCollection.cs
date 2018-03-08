@@ -16,11 +16,11 @@ namespace graph_toanroirac
             get { return _list.Count; }
         }
         /// <summary>
-          /// Trả về cạnh theo đỉnh
-          /// </summary>
-          /// <param name="start">Đỉnh đầu</param>
-          /// <param name="end">Đỉnh cuối</param>
-          /// <returns>Trả về null nếu không tồn tại</returns>
+        /// Trả về cạnh theo đỉnh
+        /// </summary>
+        /// <param name="start">Đỉnh đầu</param>
+        /// <param name="end">Đỉnh cuối</param>
+        /// <returns>Trả về null nếu không tồn tại</returns>
         public Edge this[Node start, Node end]
         {
             get
@@ -74,7 +74,7 @@ namespace graph_toanroirac
             if (!_list.Contains(edge))
             {
                 Edge newEdge = new Edge(edge.end, edge.start, edge.weight);
-                //Kiểm tra cạnh vô hướng hay có hướng(tức có cạnh có đỉnh ngược)
+                //Kiểm tra cạnh vô hướng hay có hướng
                 if (_list.Contains(newEdge))
                 {
                     edge = _list[_list.IndexOf(newEdge)];
@@ -92,8 +92,8 @@ namespace graph_toanroirac
         }
         public bool Contains(Edge edge)
         {
-            return _list.Contains(edge)|| _list.Contains(new Edge(edge.end,edge.start,edge.weight));
-        }            
+            return _list.Contains(edge) || _list.Contains(new Edge(edge.end, edge.start, edge.weight));
+        }
         public void RemoveAt(int index)
         {
             _list.RemoveAt(index);
@@ -102,7 +102,11 @@ namespace graph_toanroirac
         {
             return _list.Remove(edge);
         }
-        public bool RemoveBy(Node node)
+        /// <summary>
+        /// Xóa các cạnh liên quan đến đỉnh
+        /// </summary>
+        /// <param name="node">Đỉnh liên quan</param>
+        public void RemoveBy(Node node)
         {
             foreach (Edge edge in _list)
             {
@@ -121,8 +125,6 @@ namespace graph_toanroirac
                     }
                 }
             }
-
-            return false;
         }
         public IEnumerator<Edge> GetEnumerator()
         {
