@@ -37,18 +37,22 @@ namespace graph_toanroirac
         {
             graph.ReadFile(filematrix);
             IsUndirectedGraph = graph.IsUndirected;
-            using (StreamReader sd = new StreamReader(filePoint))
+            if (File.Exists(filePoint))
             {
-                while (!sd.EndOfStream)
+                using (StreamReader sd = new StreamReader(filePoint))
                 {
-                    string line = sd.ReadLine();
-                    Point point = new Point();
-                    point.X = int.Parse(line.Substring(line.IndexOf("X=") + 2, line.IndexOf(",") - line.IndexOf("X=") - 2));
-                    point.Y = int.Parse(line.Substring(line.IndexOf("Y=") + 2, line.IndexOf("}") - line.IndexOf("Y=") - 2));
-                    NodeLocations.Add(point);
-                }
+                    while (!sd.EndOfStream)
+                    {
+                        string line = sd.ReadLine();
+                        Point point = new Point();
+                        point.X = int.Parse(line.Substring(line.IndexOf("X=") + 2, line.IndexOf(",") - line.IndexOf("X=") - 2));
+                        point.Y = int.Parse(line.Substring(line.IndexOf("Y=") + 2, line.IndexOf("}") - line.IndexOf("Y=") - 2));
+                        NodeLocations.Add(point);
+                    }
 
+                }
             }
+
         }
     }
 }
