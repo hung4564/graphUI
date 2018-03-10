@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace graph_toanroirac
 {
@@ -291,16 +292,13 @@ namespace graph_toanroirac
         {
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
-            Matrix matrix = new Matrix();
-            matrix.ReadMatrix();
-            Graph graph = new Graph(matrix);
-            Matrix a = graph.graph_convert();
-            Console.WriteLine("test chuyen");
-            a.XuatMatrix();
-            if (a.Equals(matrix)) Console.WriteLine("2 ma tran giong nahu"); else Console.WriteLine("2 ma tran khac nahu");
-            Console.ReadKey();
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
     }
 }

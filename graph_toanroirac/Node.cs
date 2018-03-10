@@ -9,7 +9,7 @@ namespace graph_toanroirac
     {
         public int Index { get; set; }
         public bool IsVisit;
-        public Node (int Index)
+        public Node(int Index)
         {
             this.Index = Index;
             this.IsVisit = false;
@@ -21,7 +21,7 @@ namespace graph_toanroirac
         }
         public override string ToString()
         {
-            return string.Format("dinh {0} ",this.Index);
+            return string.Format("dinh {0} ", this.Index);
         }
         public int CompareTo(Node other)
         {

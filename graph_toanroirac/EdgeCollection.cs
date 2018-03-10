@@ -5,6 +5,11 @@ namespace graph_toanroirac
 {
     class EdgeCollection : IEnumerable<Edge>
     {
+        public int SelectedIndex
+        {
+            get;
+            set;
+        }
         // Lưu thông tin về các cạnh, chỉ lưu cạnh có hướng, nếu 2 chiều giống nhau thì là coi là 1 cạnh vô hướng
         List<Edge> _list;
         public EdgeCollection()
