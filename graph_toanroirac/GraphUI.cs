@@ -368,6 +368,13 @@ namespace graph_toanroirac
             }
             else
             {
+                if (item.IsSelected)
+                {
+                    var hPen = (Pen)_penEdge.Clone();
+                    hPen.Color = Color.Red;
+                    g.DrawLine(hPen, p1, p2);
+                }
+                else
                 g.DrawLine(_penEdge, p1, p2);
             }
 
@@ -454,6 +461,11 @@ namespace graph_toanroirac
             point.X = random.Next(NODE_RADIUS, this.Width - NODE_RADIUS);
             point.Y = random.Next(NODE_RADIUS, this.Height - NODE_RADIUS);
             return point;
+        }
+        public void Kruskal()
+        {
+            _graph.Kruskal();
+            Invalidate();
         }
     }
 }

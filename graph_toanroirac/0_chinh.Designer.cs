@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            graph_toanroirac.Graph graph3 = new graph_toanroirac.Graph();
-            graph_toanroirac.EdgeCollection edgeCollection3 = new graph_toanroirac.EdgeCollection();
-            graph_toanroirac.NodeCollection nodeCollection3 = new graph_toanroirac.NodeCollection();
+            graph_toanroirac.Graph graph1 = new graph_toanroirac.Graph();
+            graph_toanroirac.EdgeCollection edgeCollection1 = new graph_toanroirac.EdgeCollection();
+            graph_toanroirac.NodeCollection nodeCollection1 = new graph_toanroirac.NodeCollection();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
@@ -39,18 +39,22 @@
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDeleteLastestEdge = new System.Windows.Forms.Button();
             this.btnClearEdge = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnChangeNodeColor = new System.Windows.Forms.Button();
             this.btnDeleteNode = new System.Windows.Forms.Button();
             this.chkUndirectedGrapth = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.graphUI1 = new graph_toanroirac.GraphUI();
-            this.btnDeleteLastestEdge = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -127,6 +131,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.btnDeleteLastestEdge);
             this.panel1.Controls.Add(this.btnClearEdge);
             this.panel1.Controls.Add(this.groupBox1);
@@ -136,6 +141,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(229, 360);
             this.panel1.TabIndex = 11;
+            // 
+            // btnDeleteLastestEdge
+            // 
+            this.btnDeleteLastestEdge.Location = new System.Drawing.Point(51, 44);
+            this.btnDeleteLastestEdge.Name = "btnDeleteLastestEdge";
+            this.btnDeleteLastestEdge.Size = new System.Drawing.Size(116, 29);
+            this.btnDeleteLastestEdge.TabIndex = 12;
+            this.btnDeleteLastestEdge.Text = "Delete Lastest Edge";
+            this.btnDeleteLastestEdge.UseVisualStyleBackColor = true;
+            this.btnDeleteLastestEdge.Click += new System.EventHandler(this.btnDeleteLastestEdge_Click);
             // 
             // btnClearEdge
             // 
@@ -152,7 +167,7 @@
             this.groupBox1.Controls.Add(this.btnChangeNodeColor);
             this.groupBox1.Controls.Add(this.btnDeleteNode);
             this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(42, 167);
+            this.groupBox1.Location = new System.Drawing.Point(42, 142);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(127, 104);
             this.groupBox1.TabIndex = 9;
@@ -199,14 +214,44 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.button3);
+            this.groupBox3.Location = new System.Drawing.Point(42, 256);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(127, 104);
+            this.groupBox3.TabIndex = 10;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Thuật toán";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(14, 67);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 25);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Prime";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(14, 30);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(97, 25);
+            this.button3.TabIndex = 0;
+            this.button3.Text = "Kruskal";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // graphUI1
             // 
             this.graphUI1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            edgeCollection3.SelectedIndex = 0;
-            graph3.edgeCollection = edgeCollection3;
-            nodeCollection3.SelectedIndex = 0;
-            graph3.nodeCollection = nodeCollection3;
-            this.graphUI1.Data = graph3;
+            edgeCollection1.SelectedIndex = 0;
+            graph1.edgeCollection = edgeCollection1;
+            nodeCollection1.SelectedIndex = 0;
+            graph1.nodeCollection = nodeCollection1;
+            this.graphUI1.Data = graph1;
             this.graphUI1.IsUndirectedGraph = false;
             this.graphUI1.Location = new System.Drawing.Point(250, 12);
             this.graphUI1.Name = "graphUI1";
@@ -214,16 +259,6 @@
             this.graphUI1.TabIndex = 0;
             this.graphUI1.Text = "graphUI1";
             this.graphUI1.SelectedNodeChanged += new System.EventHandler(this.graphUI1_SelectedNodeChanged);
-            // 
-            // btnDeleteLastestEdge
-            // 
-            this.btnDeleteLastestEdge.Location = new System.Drawing.Point(51, 44);
-            this.btnDeleteLastestEdge.Name = "btnDeleteLastestEdge";
-            this.btnDeleteLastestEdge.Size = new System.Drawing.Size(116, 29);
-            this.btnDeleteLastestEdge.TabIndex = 12;
-            this.btnDeleteLastestEdge.Text = "Delete Lastest Edge";
-            this.btnDeleteLastestEdge.UseVisualStyleBackColor = true;
-            this.btnDeleteLastestEdge.Click += new System.EventHandler(this.btnDeleteLastestEdge_Click);
             // 
             // Form1
             // 
@@ -241,6 +276,7 @@
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -262,5 +298,8 @@
         private System.Windows.Forms.CheckBox chkUndirectedGrapth;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnDeleteLastestEdge;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
     }
 }

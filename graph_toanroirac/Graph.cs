@@ -88,6 +88,42 @@ namespace graph_toanroirac
         {
 
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Kruskal
+        /// </summary>
+        public void Kruskal()
+        {
+            _edgeList.Sort();
+            //danh dau nhan i cho dinh i
+            int[] label = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                label[i] = i;
+            }
+            int lab1 = 0;
+            int lab2 = 0;
+            foreach (Edge item in _edgeList)
+            {
+                if (label[item.start.Index] != label[item.end.Index])
+                {
+                    item.IsSelected = true;
+                    if (label[item.start.Index] > label[item.end.Index])
+                    {
+                        lab1 = label[item.end.Index];
+                        lab2 = label[item.start.Index];
+                    }
+                    else
+                    {
+                        lab2 = label[item.end.Index];
+                        lab1 = label[item.start.Index];
+                    }
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (label[i] == lab2) label[i] = lab1;
+                    }
+                }
+            }
+        }
         public void matrix_convert(Matrix a)
         {
             n = a.n;

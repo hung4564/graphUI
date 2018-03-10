@@ -40,6 +40,7 @@ namespace graph_toanroirac
         /// </summary>
         public bool IsUndirected;
         public bool IsRemoving;
+        public bool IsSelected;
         public Edge()
         {
 
