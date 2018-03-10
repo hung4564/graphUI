@@ -8,7 +8,10 @@ namespace graph_toanroirac
 {
     class Graph
     {
-        int n;
+        public int n
+        {
+            get { return _nodeList.Count; }
+        }
         EdgeCollection _edgeList;
         NodeCollection _nodeList;
         public EdgeCollection edgeCollection
@@ -25,27 +28,13 @@ namespace graph_toanroirac
         /// true là vô hướng, false là có hướng
         /// </summary>
         public bool IsUndirected;
-        public Graph(int n)
-        {
-            this.n = n;
-            _edgeList = new EdgeCollection();
-            _nodeList = new NodeCollection();
-            IsUndirected = true;
-        }
-        public Graph(int n, bool IsUndirected)
-        {
-            this.n = n;
-            khoitao();
-        }
         public Graph()
         {
-            n = 0;
             khoitao();
         }
         public Graph(Matrix matrix)
         {
             khoitao();
-            n = matrix.n;
             matrix_convert(matrix);
         }
         void khoitao()
@@ -124,14 +113,68 @@ namespace graph_toanroirac
                 }
             }
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Prim
+        /// </summary>
+        public void Prim(Node startNode = null)
+        {
+            if (startNode == null) startNode = _nodeList[0];
+            Node node = startNode;
+            node.IsVisit = true;
+            NodeCollection nodes = new NodeCollection();
+            nodes.Add(node);
+            Edge edge = null;
+            int min = 0;
+            int n = 0;
+            while (!_nodeList.IsAllVisit)
+            {
+                n++;
+                min = 0;
+                EdgeCollection edges = GetAllEdgeFromNodes(nodes);
+                foreach (Edge item in edges)
+                {
+                    if (min > item.weight || min == 0)
+                    {
+                        min = item.weight;
+                        edge = item;
+                    }
+                }
+                if (edge != null)
+                {
+                    edge.IsSelected = true;
+                    edge.start.IsVisit = true;
+                    edge.end.IsVisit = true;
+                    nodes.Add(edge.start);
+                    nodes.Add(edge.end);
+                }
+            }
+        }
+        EdgeCollection GetAllEdgeFromNodes(NodeCollection nodes)
+        {
+            EdgeCollection edgeCollection = new EdgeCollection();
+            foreach (Edge edge in _edgeList)
+            {
+                if (nodes.Contains(edge.start) && edge.start.IsVisit&&!edge.end.IsVisit)
+                {
+                    edgeCollection.Add(edge);
+                }
+                else
+                {
+                    if (edge.IsUndirected && edge.end.IsVisit&&!edge.start.IsVisit && nodes.Contains(edge.end))
+                    {
+                        edgeCollection.Add(edge);
+                    }
+                }
+            }
+            return edgeCollection;
+        }
         public void matrix_convert(Matrix a)
         {
-            n = a.n;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < a.n; i++)
             {
                 _nodeList.Add(new Node(i));
             }
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < a.n; i++)
             {
                 Node start = _nodeList[i];
                 for (int j = 0; j < n; j++)
@@ -167,33 +210,36 @@ namespace graph_toanroirac
         public void AddNode(Node newNode)
         {
             _nodeList.Add(newNode);
-            n++;
+            ResetSubNode();
+        }
+        void ResetSubNode()
+        {
+            for (int i = 0; i < n; i++)
+            {
+                _nodeList[i].Index = i;
+            }
         }
         public void AddEdge(Node start, Node end, int weight)
         {
             Edge edge = new Edge(start, end, weight);
             AddEdge(edge);
         }
-        public bool AddEdge(Edge edge)
+        public void AddEdge(Edge edge)
         {
             //Nếu đỉnh của cạnh tồn tại
             if (_nodeList.Contains(edge.start) && _nodeList.Contains(edge.end))
             {
                 _edgeList.Add(edge);
-                return true;
             }
-            return false;
         }
-        public bool DeleteNode(Node node)
+        public void DeleteNode(Node node)
         {
             if (_nodeList.Contains(node))
             {
                 _edgeList.RemoveBy(node);
                 _nodeList.Remove(node);
-                n--;
-                return true;
+                ResetSubNode();
             }
-            return false;
         }
         public bool DeleteEdeg(Edge edge)
         {
@@ -210,7 +256,6 @@ namespace graph_toanroirac
         }
         public void Clear()
         {
-            n = 0;
             _edgeList.Clear();
             _nodeList.Clear();
         }
@@ -224,6 +269,11 @@ namespace graph_toanroirac
         {
             Matrix matrix = graph_convert();
             matrix.WriteMarix(filename);
+        }
+        public void Reset()
+        {
+            _nodeList.Reset();
+            _edgeList.Reset();
         }
     }
 }

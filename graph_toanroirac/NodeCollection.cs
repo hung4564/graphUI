@@ -39,40 +39,46 @@ namespace graph_toanroirac
         public void Sort()
         {
             _list.Sort();
-        }            
+        }
         public void Clear()
         {
             _list.Clear();
         }
         public bool Contains(Node node)
         {
-            return _list.Contains(node) ;
+            return _list.Contains(node);
         }
         public void Add(Node node)
         {
-            // đánh lại chỉ số của node
-            node.Index = _list.Count;
-            _list.Add(node);
+            if (!_list.Contains(node))
+                _list.Add(node);
         }
-        public bool Remove(Node node)
+        public void Remove(Node node)
         {
-            if (_list.Contains(node))
-            {
-                int index = _list.IndexOf(node);
-                _list.RemoveAt(index);
-                for (int i = index; i < _list.Count; i++)
-                {
-                    _list[i].Index = i;
-                }
-                return true;
-            }
-            return false;
+            _list.Remove(node);
         }
         public IEnumerator<Node> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
-
+        public bool IsAllVisit
+        {
+            get
+            {
+                foreach (var item in _list)
+                {
+                    if (!item.IsVisit) return false;
+                }
+                return true;
+            }
+        }
+        public void Reset()
+        {
+            foreach (var item in _list)
+            {
+                item.Reset();
+            }
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();

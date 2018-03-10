@@ -141,10 +141,15 @@ namespace graph_toanroirac
             _graph.ClearEdge();
             Invalidate();
         }
-        public void Reset()
+        public void Clear()
         {
             _graph.Clear();
             this.Controls.Clear();
+            Invalidate();
+        }
+        public void Reset()
+        {
+            _graph.Reset();
             Invalidate();
         }
 
@@ -431,7 +436,7 @@ namespace graph_toanroirac
                     NodeUI n = new NodeUI();
                     n.Index = this.Controls.Count;
                     n.DisplayName = (char)(n.Index + 'A');
-                    if (data.graph.nodeCollection.Count < data.NodeLocations.Count)
+                    if (data.graph.nodeCollection.Count <= data.NodeLocations.Count)
                         n.Location = data.NodeLocations[i];
                     else
                         n.Location = GetRandomLocaition();
@@ -465,6 +470,11 @@ namespace graph_toanroirac
         public void Kruskal()
         {
             _graph.Kruskal();
+            Invalidate();
+        }
+        public void Prim(Node node)
+        {
+            _graph.Prim(node);
             Invalidate();
         }
     }
