@@ -11,6 +11,8 @@ namespace graph_toanroirac
 {
     public partial class Form1 : Form
     {
+        string filematrix = "matrix.txt";
+        string filePoint = "point.txt";
         public Form1()
         {
             InitializeComponent();
@@ -25,13 +27,13 @@ namespace graph_toanroirac
         }
         protected override void OnLoad(EventArgs e)
         {
-            GraphData data = graphUI1.LoadGraph("matrix.txt","point.txt");
+            GraphData data = graphUI1.LoadGraph(filematrix, filePoint);
             chkUndirectedGrapth.Checked = data.IsUndirectedGraph;
             base.OnShown(e);
         }
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            graphUI1.SaveGraph("matrix.txt", "point.txt");
+            graphUI1.SaveGraph(filematrix, filePoint);
             base.OnClosing(e);
         }
         private void graphUI1_SelectedNodeChanged(object sender, EventArgs e)
@@ -65,7 +67,7 @@ namespace graph_toanroirac
 
         private void button2_Click(object sender, EventArgs e)
         {
-            graphUI1.Reset();
+            graphUI1.Clear();
         }
         private void btnDeleteNode_Click(object sender, EventArgs e)
         {
@@ -101,6 +103,22 @@ namespace graph_toanroirac
         private void button3_Click(object sender, EventArgs e)
         {
             graphUI1.Kruskal();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            graphUI1.LoadGraph(filematrix, filePoint);
+            graphUI1.Invalidate();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            graphUI1.SaveGraph(filematrix, filePoint);
+        }
+
+        private void btnResetEdge_Click(object sender, EventArgs e)
+        {
+            graphUI1.ResetEdges();
         }
     }
 }

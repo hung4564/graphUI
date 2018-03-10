@@ -50,23 +50,11 @@ namespace graph_toanroirac
         }
         public void Add(Node node)
         {
-            // đánh lại chỉ số của node
-            node.Index = _list.Count;
             _list.Add(node);
         }
-        public bool Remove(Node node)
+        public void Remove(Node node)
         {
-            if (_list.Contains(node))
-            {
-                int index = _list.IndexOf(node);
-                _list.RemoveAt(index);
-                for (int i = index; i < _list.Count; i++)
-                {
-                    _list[i].Index = i;
-                }
-                return true;
-            }
-            return false;
+            _list.Remove(node);
         }
         public IEnumerator<Node> GetEnumerator()
         {

@@ -139,5 +139,12 @@ namespace graph_toanroirac
         {
             return _list.GetEnumerator();
         }
+        public void Reset()
+        {
+            foreach (var item in _list)
+            {
+                item.Reset();
+            }
+        } 
     }
 }
