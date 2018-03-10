@@ -108,6 +108,15 @@ namespace graph_toanroirac
                     }
                 }
             }
+            IsUndirected = true;
+            for (int i = 0; i < _edgeList.Count; i++)
+            {
+                if (_edgeList[i].IsUndirected == false)
+                {
+                    IsUndirected = false;
+                    break;
+                }
+            }
         }
         public Matrix graph_convert()
         {
@@ -115,7 +124,7 @@ namespace graph_toanroirac
             foreach (Edge item in _edgeList)
             {
                 matrix[item.start.Index, item.end.Index] = item.weight;
-                if (item.IsUndirected) matrix[item.end.Index, item.start.Index] = item.weight;
+                if (item.IsUndirected || this.IsUndirected) matrix[item.end.Index, item.start.Index] = item.weight;
             }
             return matrix;
         }
@@ -139,11 +148,46 @@ namespace graph_toanroirac
             }
             return false;
         }
+        public bool DeleteNode(Node node)
+        {
+            if (_nodeList.Contains(node))
+            {
+                _edgeList.RemoveBy(node);
+                _nodeList.Remove(node);
+                n--;
+                return true;
+            }
+            return false;
+        }
+        public bool DeleteEdeg(Edge edge)
+        {
+            if (_edgeList.Contains(edge))
+            {
+                _edgeList.Remove(edge);
+                return true;
+            }
+            return false;
+        }
+        public void ClearEdge()
+        {
+            _edgeList.Clear();
+        }
         public void Clear()
         {
             n = 0;
             _edgeList.Clear();
             _nodeList.Clear();
+        }
+        public void ReadFile(string filename)
+        {
+            Matrix matrix = new Matrix();
+            matrix.ReadMatrix(filename);
+            matrix_convert(matrix);
+        }
+        public void WriteFIle(string filename)
+        {
+            Matrix matrix = graph_convert();
+            matrix.WriteMarix(filename);
         }
     }
 }

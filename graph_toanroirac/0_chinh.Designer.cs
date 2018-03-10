@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            graph_toanroirac.Graph graph3 = new graph_toanroirac.Graph();
+            graph_toanroirac.EdgeCollection edgeCollection3 = new graph_toanroirac.EdgeCollection();
+            graph_toanroirac.NodeCollection nodeCollection3 = new graph_toanroirac.NodeCollection();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
@@ -43,6 +46,7 @@
             this.chkUndirectedGrapth = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.graphUI1 = new graph_toanroirac.GraphUI();
+            this.btnDeleteLastestEdge = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -123,6 +127,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.btnDeleteLastestEdge);
             this.panel1.Controls.Add(this.btnClearEdge);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.chkUndirectedGrapth);
@@ -134,7 +139,7 @@
             // 
             // btnClearEdge
             // 
-            this.btnClearEdge.Location = new System.Drawing.Point(51, 16);
+            this.btnClearEdge.Location = new System.Drawing.Point(52, 6);
             this.btnClearEdge.Name = "btnClearEdge";
             this.btnClearEdge.Size = new System.Drawing.Size(115, 32);
             this.btnClearEdge.TabIndex = 11;
@@ -162,6 +167,7 @@
             this.btnChangeNodeColor.TabIndex = 1;
             this.btnChangeNodeColor.Text = "Change Color";
             this.btnChangeNodeColor.UseVisualStyleBackColor = true;
+            this.btnChangeNodeColor.Click += new System.EventHandler(this.btnChangeNodeColor_Click);
             // 
             // btnDeleteNode
             // 
@@ -171,6 +177,7 @@
             this.btnDeleteNode.TabIndex = 0;
             this.btnDeleteNode.Text = "Delete Node";
             this.btnDeleteNode.UseVisualStyleBackColor = true;
+            this.btnDeleteNode.Click += new System.EventHandler(this.btnDeleteNode_Click);
             // 
             // chkUndirectedGrapth
             // 
@@ -184,7 +191,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(51, 67);
+            this.button2.Location = new System.Drawing.Point(51, 79);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 29);
             this.button2.TabIndex = 4;
@@ -195,12 +202,28 @@
             // graphUI1
             // 
             this.graphUI1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            edgeCollection3.SelectedIndex = 0;
+            graph3.edgeCollection = edgeCollection3;
+            nodeCollection3.SelectedIndex = 0;
+            graph3.nodeCollection = nodeCollection3;
+            this.graphUI1.Data = graph3;
             this.graphUI1.IsUndirectedGraph = false;
             this.graphUI1.Location = new System.Drawing.Point(250, 12);
             this.graphUI1.Name = "graphUI1";
             this.graphUI1.Size = new System.Drawing.Size(489, 416);
             this.graphUI1.TabIndex = 0;
             this.graphUI1.Text = "graphUI1";
+            this.graphUI1.SelectedNodeChanged += new System.EventHandler(this.graphUI1_SelectedNodeChanged);
+            // 
+            // btnDeleteLastestEdge
+            // 
+            this.btnDeleteLastestEdge.Location = new System.Drawing.Point(51, 44);
+            this.btnDeleteLastestEdge.Name = "btnDeleteLastestEdge";
+            this.btnDeleteLastestEdge.Size = new System.Drawing.Size(116, 29);
+            this.btnDeleteLastestEdge.TabIndex = 12;
+            this.btnDeleteLastestEdge.Text = "Delete Lastest Edge";
+            this.btnDeleteLastestEdge.UseVisualStyleBackColor = true;
+            this.btnDeleteLastestEdge.Click += new System.EventHandler(this.btnDeleteLastestEdge_Click);
             // 
             // Form1
             // 
@@ -238,5 +261,6 @@
         private System.Windows.Forms.Button btnDeleteNode;
         private System.Windows.Forms.CheckBox chkUndirectedGrapth;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnDeleteLastestEdge;
     }
 }

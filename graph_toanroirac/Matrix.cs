@@ -8,7 +8,6 @@ namespace graph_toanroirac
 {
     class Matrix
     {
-        string path = "matrix.txt";
         int[,] matrix;
         public int n;
         public Matrix(int n)
@@ -90,9 +89,9 @@ namespace graph_toanroirac
         /// <summary>
         /// Đọc ma trận từ file
         /// </summary>
-        public void ReadMatrix()
+        public void ReadMatrix(string path = "matrix.txt")
         {
-            
+
             if (File.Exists(path))
             {
                 n = 0;
@@ -108,10 +107,10 @@ namespace graph_toanroirac
                     matrix = new int[n, n];
                     for (int i = 0; i < rows.Count(); i++)
                     {
-                        string[] columns = rows[i].Split(' ');
+                        string[] columns = rows[i].Trim().Split(' ');
                         for (int j = 0; j < columns.Count(); j++)
                         {
-                            matrix[i, j] = int.Parse(columns[j]);
+                             matrix[i, j] = int.Parse(columns[j]);
                         }
                     }
                 }
@@ -122,9 +121,9 @@ namespace graph_toanroirac
         /// </summary>
         /// <param name="matrix">Mảng chứa dữ liệu</param>
         /// <param name="n">số lượng phần tử</param>
-        public void WriteMarix()
+        public void WriteMarix(string path = "matrix.txt")
         {
-            if(matrix.Length>0)
+            if (matrix.Length > 0)
             {
                 if (File.Exists(path))
                 {
