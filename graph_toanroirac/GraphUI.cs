@@ -147,9 +147,9 @@ namespace graph_toanroirac
             this.Controls.Clear();
             Invalidate();
         }
-        public void ResetEdges()
+        public void Reset()
         {
-            _graph.ResetEdge();
+            _graph.Reset();
             Invalidate();
         }
 
@@ -470,6 +470,11 @@ namespace graph_toanroirac
         public void Kruskal()
         {
             _graph.Kruskal();
+            Invalidate();
+        }
+        public void Prim(Node node)
+        {
+            _graph.Prim(node);
             Invalidate();
         }
     }

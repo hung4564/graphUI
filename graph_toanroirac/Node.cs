@@ -47,5 +47,9 @@ namespace graph_toanroirac
             if (other == null) return false;
             return (this.Index.Equals(other.Index));
         }
+        public void Reset()
+        {
+            IsVisit = false;
+        }
     }
 }

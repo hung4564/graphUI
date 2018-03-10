@@ -39,18 +39,19 @@ namespace graph_toanroirac
         public void Sort()
         {
             _list.Sort();
-        }            
+        }
         public void Clear()
         {
             _list.Clear();
         }
         public bool Contains(Node node)
         {
-            return _list.Contains(node) ;
+            return _list.Contains(node);
         }
         public void Add(Node node)
         {
-            _list.Add(node);
+            if (!_list.Contains(node))
+                _list.Add(node);
         }
         public void Remove(Node node)
         {
@@ -60,7 +61,24 @@ namespace graph_toanroirac
         {
             return _list.GetEnumerator();
         }
-
+        public bool IsAllVisit
+        {
+            get
+            {
+                foreach (var item in _list)
+                {
+                    if (!item.IsVisit) return false;
+                }
+                return true;
+            }
+        }
+        public void Reset()
+        {
+            foreach (var item in _list)
+            {
+                item.Reset();
+            }
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();

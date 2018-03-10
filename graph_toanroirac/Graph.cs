@@ -113,6 +113,61 @@ namespace graph_toanroirac
                 }
             }
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Prim
+        /// </summary>
+        public void Prim(Node startNode = null)
+        {
+            if (startNode == null) startNode = _nodeList[0];
+            Node node = startNode;
+            node.IsVisit = true;
+            NodeCollection nodes = new NodeCollection();
+            nodes.Add(node);
+            Edge edge = null;
+            int min = 0;
+            int n = 0;
+            while (!_nodeList.IsAllVisit)
+            {
+                n++;
+                min = 0;
+                EdgeCollection edges = GetAllEdgeFromNodes(nodes);
+                foreach (Edge item in edges)
+                {
+                    if (min > item.weight || min == 0)
+                    {
+                        min = item.weight;
+                        edge = item;
+                    }
+                }
+                if (edge != null)
+                {
+                    edge.IsSelected = true;
+                    edge.start.IsVisit = true;
+                    edge.end.IsVisit = true;
+                    nodes.Add(edge.start);
+                    nodes.Add(edge.end);
+                }
+            }
+        }
+        EdgeCollection GetAllEdgeFromNodes(NodeCollection nodes)
+        {
+            EdgeCollection edgeCollection = new EdgeCollection();
+            foreach (Edge edge in _edgeList)
+            {
+                if (nodes.Contains(edge.start) && edge.start.IsVisit&&!edge.end.IsVisit)
+                {
+                    edgeCollection.Add(edge);
+                }
+                else
+                {
+                    if (edge.IsUndirected && edge.end.IsVisit&&!edge.start.IsVisit && nodes.Contains(edge.end))
+                    {
+                        edgeCollection.Add(edge);
+                    }
+                }
+            }
+            return edgeCollection;
+        }
         public void matrix_convert(Matrix a)
         {
             for (int i = 0; i < a.n; i++)
@@ -215,8 +270,9 @@ namespace graph_toanroirac
             Matrix matrix = graph_convert();
             matrix.WriteMarix(filename);
         }
-        public void ResetEdge()
+        public void Reset()
         {
+            _nodeList.Reset();
             _edgeList.Reset();
         }
     }

@@ -102,6 +102,7 @@ namespace graph_toanroirac
 
         private void button3_Click(object sender, EventArgs e)
         {
+            graphUI1.Reset();
             graphUI1.Kruskal();
         }
 
@@ -118,7 +119,13 @@ namespace graph_toanroirac
 
         private void btnResetEdge_Click(object sender, EventArgs e)
         {
-            graphUI1.ResetEdges();
+            graphUI1.Reset();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            graphUI1.Reset();
+            graphUI1.Prim(graphUI1.SelectedNode.node);
         }
     }
 }

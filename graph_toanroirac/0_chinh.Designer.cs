@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            graph_toanroirac.Graph graph4 = new graph_toanroirac.Graph();
-            graph_toanroirac.EdgeCollection edgeCollection4 = new graph_toanroirac.EdgeCollection();
-            graph_toanroirac.NodeCollection nodeCollection4 = new graph_toanroirac.NodeCollection();
+            graph_toanroirac.Graph graph1 = new graph_toanroirac.Graph();
+            graph_toanroirac.EdgeCollection edgeCollection1 = new graph_toanroirac.EdgeCollection();
+            graph_toanroirac.NodeCollection nodeCollection1 = new graph_toanroirac.NodeCollection();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
@@ -39,6 +39,9 @@
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -50,9 +53,6 @@
             this.chkUndirectedGrapth = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.graphUI1 = new graph_toanroirac.GraphUI();
-            this.btnResetEdge = new System.Windows.Forms.Button();
-            this.btnLoad = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -67,7 +67,7 @@
             this.groupBox2.Controls.Add(this.toolStrip1);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 50);
+            this.groupBox2.Size = new System.Drawing.Size(255, 50);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toolbox";
@@ -83,7 +83,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(232, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(249, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton5
@@ -136,7 +136,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.btnLoad);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Controls.Add(this.btnResetEdge);
+            this.panel1.Controls.Add(this.btnReset);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.btnDeleteLastestEdge);
             this.panel1.Controls.Add(this.btnClearEdge);
@@ -145,8 +145,38 @@
             this.panel1.Controls.Add(this.button2);
             this.panel1.Location = new System.Drawing.Point(15, 68);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(235, 360);
+            this.panel1.Size = new System.Drawing.Size(252, 360);
             this.panel1.TabIndex = 11;
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.Location = new System.Drawing.Point(4, 87);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(116, 29);
+            this.btnLoad.TabIndex = 15;
+            this.btnLoad.Text = "Load Graph";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(126, 87);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(116, 29);
+            this.btnSave.TabIndex = 14;
+            this.btnSave.Text = "Save Graph";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(127, 14);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(115, 32);
+            this.btnReset.TabIndex = 13;
+            this.btnReset.Text = "Reset All";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnResetEdge_Click);
             // 
             // groupBox3
             // 
@@ -167,6 +197,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Prime";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -232,7 +263,7 @@
             // 
             // chkUndirectedGrapth
             // 
-            this.chkUndirectedGrapth.Location = new System.Drawing.Point(49, 217);
+            this.chkUndirectedGrapth.Location = new System.Drawing.Point(61, 218);
             this.chkUndirectedGrapth.Name = "chkUndirectedGrapth";
             this.chkUndirectedGrapth.Size = new System.Drawing.Size(118, 20);
             this.chkUndirectedGrapth.TabIndex = 8;
@@ -242,7 +273,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(117, 52);
+            this.button2.Location = new System.Drawing.Point(126, 52);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 29);
             this.button2.TabIndex = 4;
@@ -253,11 +284,11 @@
             // graphUI1
             // 
             this.graphUI1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            edgeCollection4.SelectedIndex = 0;
-            graph4.edgeCollection = edgeCollection4;
-            nodeCollection4.SelectedIndex = 0;
-            graph4.nodeCollection = nodeCollection4;
-            this.graphUI1.Data = graph4;
+            edgeCollection1.SelectedIndex = 0;
+            graph1.edgeCollection = edgeCollection1;
+            nodeCollection1.SelectedIndex = 0;
+            graph1.nodeCollection = nodeCollection1;
+            this.graphUI1.Data = graph1;
             this.graphUI1.IsUndirectedGraph = false;
             this.graphUI1.Location = new System.Drawing.Point(273, 12);
             this.graphUI1.Name = "graphUI1";
@@ -265,36 +296,6 @@
             this.graphUI1.TabIndex = 0;
             this.graphUI1.Text = "graphUI1";
             this.graphUI1.SelectedNodeChanged += new System.EventHandler(this.graphUI1_SelectedNodeChanged);
-            // 
-            // btnResetEdge
-            // 
-            this.btnResetEdge.Location = new System.Drawing.Point(117, 14);
-            this.btnResetEdge.Name = "btnResetEdge";
-            this.btnResetEdge.Size = new System.Drawing.Size(115, 32);
-            this.btnResetEdge.TabIndex = 13;
-            this.btnResetEdge.Text = "Reset Edges";
-            this.btnResetEdge.UseVisualStyleBackColor = true;
-            this.btnResetEdge.Click += new System.EventHandler(this.btnResetEdge_Click);
-            // 
-            // btnLoad
-            // 
-            this.btnLoad.Location = new System.Drawing.Point(4, 87);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(116, 29);
-            this.btnLoad.TabIndex = 15;
-            this.btnLoad.Text = "Load Graph";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(117, 87);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(116, 29);
-            this.btnSave.TabIndex = 14;
-            this.btnSave.Text = "Save Graph";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // Form1
             // 
@@ -339,6 +340,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnResetEdge;
+        private System.Windows.Forms.Button btnReset;
     }
 }
