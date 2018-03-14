@@ -14,9 +14,20 @@ namespace graph_toanroirac
         public Form2()
         {
             InitializeComponent();
-            textBox1.Text = "1";
+            weight = 1;
+            textBox1.Text = weight.ToString();
         }
-        public int weight=1;
+        public int weight
+        {
+            get
+            {
+                return int.Parse(textBox1.Text);
+            }
+            set
+            {
+                textBox1.Text = value.ToString();
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             weight = int.Parse(textBox1.Text);

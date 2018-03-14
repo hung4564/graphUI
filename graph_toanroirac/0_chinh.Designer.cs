@@ -52,12 +52,19 @@
             this.btnDeleteNode = new System.Windows.Forms.Button();
             this.chkUndirectedGrapth = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.list_edge = new System.Windows.Forms.ListBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.edit_edge_btn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.graphUI1 = new graph_toanroirac.GraphUI();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -70,7 +77,7 @@
             this.groupBox2.Size = new System.Drawing.Size(255, 50);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Toolbox";
+            this.groupBox2.Text = "GraphTools";
             // 
             // toolStrip1
             // 
@@ -221,7 +228,7 @@
             // 
             // btnClearEdge
             // 
-            this.btnClearEdge.Location = new System.Drawing.Point(4, 14);
+            this.btnClearEdge.Location = new System.Drawing.Point(127, 50);
             this.btnClearEdge.Name = "btnClearEdge";
             this.btnClearEdge.Size = new System.Drawing.Size(115, 32);
             this.btnClearEdge.TabIndex = 11;
@@ -273,13 +280,68 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(126, 52);
+            this.button2.Location = new System.Drawing.Point(5, 17);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 29);
             this.button2.TabIndex = 4;
             this.button2.Text = "Clear All";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // list_edge
+            // 
+            this.list_edge.FormattingEnabled = true;
+            this.list_edge.Location = new System.Drawing.Point(745, 68);
+            this.list_edge.Name = "list_edge";
+            this.list_edge.Size = new System.Drawing.Size(263, 199);
+            this.list_edge.TabIndex = 1;
+            this.list_edge.SelectedIndexChanged += new System.EventHandler(this.list_edge_SelectedIndexChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.toolStrip2);
+            this.groupBox4.Location = new System.Drawing.Point(745, 12);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(263, 50);
+            this.groupBox4.TabIndex = 11;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "EdgeTools";
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.edit_edge_btn,
+            this.toolStripButton4});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip2.Size = new System.Drawing.Size(257, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // edit_edge_btn
+            // 
+            this.edit_edge_btn.Image = ((System.Drawing.Image)(resources.GetObject("edit_edge_btn.Image")));
+            this.edit_edge_btn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.edit_edge_btn.Name = "edit_edge_btn";
+            this.edit_edge_btn.Size = new System.Drawing.Size(47, 22);
+            this.edit_edge_btn.Tag = "2";
+            this.edit_edge_btn.Text = "&Edit";
+            this.edit_edge_btn.ToolTipText = "Edge";
+            this.edit_edge_btn.Click += new System.EventHandler(this.edit_edge_btn_Click);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(58, 22);
+            this.toolStripButton4.Tag = "3";
+            this.toolStripButton4.Text = "E&raser";
+            this.toolStripButton4.ToolTipText = "Eraser";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // graphUI1
             // 
@@ -301,7 +363,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 440);
+            this.ClientSize = new System.Drawing.Size(1020, 440);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.list_edge);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.graphUI1);
@@ -314,6 +378,10 @@
             this.panel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -341,5 +409,10 @@
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.ListBox list_edge;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton edit_edge_btn;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
     }
 }

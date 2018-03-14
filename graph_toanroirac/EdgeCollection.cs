@@ -97,7 +97,10 @@ namespace graph_toanroirac
         }
         public bool Contains(Edge edge)
         {
-            return _list.Contains(edge) || _list.Contains(new Edge(edge.end, edge.start, edge.weight));
+            if (edge.IsUndirected)
+                return _list.Contains(edge) || _list.Contains(new Edge(edge.end, edge.start, edge.weight));
+            else
+                return _list.Contains(edge);
         }
         public void RemoveAt(int index)
         {
@@ -145,6 +148,6 @@ namespace graph_toanroirac
             {
                 item.Reset();
             }
-        } 
+        }
     }
 }

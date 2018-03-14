@@ -13,12 +13,25 @@ namespace graph_toanroirac
     class GraphUI : Control
     {
         public event EventHandler SelectedNodeChanged;
+        public event EventHandler DrawEvent;
+        public event EventHandler GraphChange;
         Graph _graph;
         public Graph Data
         {
             get { return _graph; }
-            set { _graph = value; }
+            set
+            {
+                _graph = value;
+                _graph.GraphChange += GraphChange;
+            }
         }
+
+        private void _graph_GraphChange(object sender, EventArgs e)
+        {
+            if (GraphChange != null)
+                GraphChange(sender, null);
+        }
+
         public const int NODE_RADIUS = 12;
         public const int NODE_DIAMETER = NODE_RADIUS * 2;
         Pen _penEdge;
@@ -72,8 +85,11 @@ namespace graph_toanroirac
             _penEdge.EndCap = LineCap.ArrowAnchor;
 
             _graph = new Graph();
+            _graph.GraphChange += GraphChange;
             //Reset();
         }
+        
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             //foreach(Control ctl in this.Controls)
@@ -135,6 +151,11 @@ namespace graph_toanroirac
         {
             if (SelectedNodeChanged != null)
                 SelectedNodeChanged(sender, null);
+        }
+        protected virtual void OnDrawEvent(object sender, EventArgs e)
+        {
+            if (DrawEvent != null)
+                DrawEvent(sender, null);
         }
         public void ClearEdges()
         {
@@ -229,10 +250,9 @@ namespace graph_toanroirac
                     NodeUI node = this.GetChildAtPoint(p2) as NodeUI;
                     if (node != null)
                     {
-                        Form2 f = new Form2();
-                        f.ShowDialog();
-                        int weight = f.weight;
-                        _graph.AddEdge(new Edge(_startNode, node.node, weight));
+                        Edge edge = new Edge(_startNode, node.node);
+                        OnDrawEvent(edge, null);
+                        _graph.AddEdge(edge);
                     }
                 }
                 Invalidate();
@@ -282,6 +302,12 @@ namespace graph_toanroirac
             _graph.DeleteEdeg(_graph.edgeCollection[index]);
             Invalidate();
         }
+        public void DeleteEdge(Edge edge)
+        {
+            edge.IsRemoving = true;
+            _graph.DeleteEdeg(edge);
+            Invalidate();
+        }
         void RefreshSubControls()
         {
             this._selectedIndex = -1;
@@ -289,7 +315,7 @@ namespace graph_toanroirac
             {
                 NodeUI node = this.Controls[i] as NodeUI;
                 node.Index = i;
-                node.DisplayName = (char)('A' + i );
+                node.DisplayName = (char)('A' + i);
                 node.Invalidate();
             }
             OnSeletedNodeChanged(null, null);
@@ -380,7 +406,7 @@ namespace graph_toanroirac
                     g.DrawLine(hPen, p1, p2);
                 }
                 else
-                g.DrawLine(_penEdge, p1, p2);
+                    g.DrawLine(_penEdge, p1, p2);
             }
 
 
@@ -414,7 +440,7 @@ namespace graph_toanroirac
             data.graph = _graph;
             try
             {
-                data.SaveData(filematrix,filePoint);
+                data.SaveData(filematrix, filePoint);
 
             }
             catch (Exception ex)
@@ -430,6 +456,7 @@ namespace graph_toanroirac
                 GraphData data = new GraphData();
                 data.LoadData(filematrix, filePoint);
                 _graph = data.graph;
+                _graph.GraphChange += _graph_GraphChange;
                 _graph.IsUndirected = data.IsUndirectedGraph;
                 for (int i = 0; i < data.graph.nodeCollection.Count; i++)
                 {
@@ -452,7 +479,8 @@ namespace graph_toanroirac
                 return data;
 
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.ToString());
             }
             return null;

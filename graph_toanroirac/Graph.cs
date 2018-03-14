@@ -8,6 +8,8 @@ namespace graph_toanroirac
 {
     class Graph
     {
+        public event EventHandler GraphChange;
+
         public int n
         {
             get { return _nodeList.Count; }
@@ -43,43 +45,6 @@ namespace graph_toanroirac
             _nodeList = new NodeCollection();
             this.IsUndirected = false;
         }
-        /// <summary>
-        /// Kiểm tra tính liên thông của ma trận
-        /// </summary>
-        /// <returns>Trả về đúng nếu liên thông</returns>
-        public bool Is_lienthong()
-        {
-            return false;
-        }
-        /// <summary>
-        /// Kiểm tra tính đầy đủ của ma trận
-        /// </summary>
-        /// <returns>
-        /// Trả về đúng nếu là ma trận đầy đủ
-        /// </returns>
-        public bool Is_daydu()
-        {
-            return false;
-        }
-        /// <summary>
-        /// Duyệt theo chiều sâu
-        /// </summary>
-        /// <param name="start">đỉnh bắt đầu(mặc định là đỉnh 0)</param>
-        public void Travel_Deep(int start = 0)
-        {
-
-        }
-        /// <summary>
-        /// Duyệt theo chiều rộng
-        /// </summary>
-        /// <param name="start">đỉnh bắt đầu(mặc định là đỉnh 0)</param>
-        public void Travel_Breadth(int start = 0)
-        {
-
-        }
-        /// <summary>
-        /// Tìm cây khung nhỏ nhất theo thuật toán Kruskal
-        /// </summary>
         public void Kruskal()
         {
             _edgeList.Sort();
@@ -154,13 +119,13 @@ namespace graph_toanroirac
             EdgeCollection edgeCollection = new EdgeCollection();
             foreach (Edge edge in _edgeList)
             {
-                if (nodes.Contains(edge.start) && edge.start.IsVisit&&!edge.end.IsVisit)
+                if (nodes.Contains(edge.start) && edge.start.IsVisit && !edge.end.IsVisit)
                 {
                     edgeCollection.Add(edge);
                 }
                 else
                 {
-                    if (edge.IsUndirected && edge.end.IsVisit&&!edge.start.IsVisit && nodes.Contains(edge.end))
+                    if (edge.IsUndirected && edge.end.IsVisit && !edge.start.IsVisit && nodes.Contains(edge.end))
                     {
                         edgeCollection.Add(edge);
                     }
@@ -211,6 +176,7 @@ namespace graph_toanroirac
         {
             _nodeList.Add(newNode);
             ResetSubNode();
+            OnGraphChange(null, null);
         }
         void ResetSubNode()
         {
@@ -222,6 +188,7 @@ namespace graph_toanroirac
         public void AddEdge(Node start, Node end, int weight)
         {
             Edge edge = new Edge(start, end, weight);
+            edge.IsUndirected = this.IsUndirected;
             AddEdge(edge);
         }
         public void AddEdge(Edge edge)
@@ -229,7 +196,9 @@ namespace graph_toanroirac
             //Nếu đỉnh của cạnh tồn tại
             if (_nodeList.Contains(edge.start) && _nodeList.Contains(edge.end))
             {
+                edge.IsUndirected = this.IsUndirected;
                 _edgeList.Add(edge);
+                OnGraphChange(null, null);
             }
         }
         public void DeleteNode(Node node)
@@ -239,6 +208,7 @@ namespace graph_toanroirac
                 _edgeList.RemoveBy(node);
                 _nodeList.Remove(node);
                 ResetSubNode();
+                OnGraphChange(null, null);
             }
         }
         public bool DeleteEdeg(Edge edge)
@@ -246,6 +216,7 @@ namespace graph_toanroirac
             if (_edgeList.Contains(edge))
             {
                 _edgeList.Remove(edge);
+                OnGraphChange(null, null);
                 return true;
             }
             return false;
@@ -253,6 +224,7 @@ namespace graph_toanroirac
         public void ClearEdge()
         {
             _edgeList.Clear();
+            OnGraphChange(null, null);
         }
         public void Clear()
         {
@@ -274,6 +246,11 @@ namespace graph_toanroirac
         {
             _nodeList.Reset();
             _edgeList.Reset();
+        }
+        protected virtual void OnGraphChange(object sender, EventArgs e)
+        {
+            if (GraphChange != null)
+                GraphChange(sender, null);
         }
     }
 }
