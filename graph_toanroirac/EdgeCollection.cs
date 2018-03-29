@@ -116,20 +116,22 @@ namespace graph_toanroirac
         /// <param name="node">Đỉnh liên quan</param>
         public void RemoveBy(Node node)
         {
-            foreach (Edge edge in _list)
+            for(int i = 0;i<_list.Count;i++)
             {
-                if (edge.IsUndirected)
+                if (_list[i].IsUndirected)
                 {
-                    if (edge.start == node || edge.end == node)
+                    if (_list[i].start == node || _list[i].end == node)
                     {
-                        _list.Remove(edge);
+                        _list.Remove(_list[i]);
+                        i--;
                     }
                 }
                 else
                 {
-                    if (edge.start == node)
+                    if (_list[i].start == node)
                     {
-                        _list.Remove(edge);
+                        _list.Remove(_list[i]);
+                        i--;
                     }
                 }
             }

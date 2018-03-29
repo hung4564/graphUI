@@ -45,6 +45,9 @@ namespace graph_toanroirac
             _nodeList = new NodeCollection();
             this.IsUndirected = false;
         }
+        /// <summary>
+        /// Tìm cây khung nhỏ nhất theo thuật toán Krukal
+        /// </summary>
         public void Kruskal()
         {
             _edgeList.Sort();
@@ -133,7 +136,7 @@ namespace graph_toanroirac
             }
             return edgeCollection;
         }
-        public void matrix_convert(Matrix a)
+        void matrix_convert(Matrix a)
         {
             for (int i = 0; i < a.n; i++)
             {
@@ -162,7 +165,7 @@ namespace graph_toanroirac
                 }
             }
         }
-        public Matrix graph_convert()
+        Matrix graph_convert()
         {
             Matrix matrix = new Matrix(n);
             foreach (Edge item in _edgeList)
@@ -176,7 +179,15 @@ namespace graph_toanroirac
         {
             _nodeList.Add(newNode);
             ResetSubNode();
-            OnGraphChange(null, null);
+        }
+        public void DeleteNode(Node node)
+        {
+            if (_nodeList.Contains(node))
+            {
+                _edgeList.RemoveBy(node);
+                _nodeList.Remove(node);
+                ResetSubNode();
+            }
         }
         void ResetSubNode()
         {
@@ -184,6 +195,7 @@ namespace graph_toanroirac
             {
                 _nodeList[i].Index = i;
             }
+            OnGraphChange(null, null);
         }
         public void AddEdge(Node start, Node end, int weight)
         {
@@ -198,16 +210,6 @@ namespace graph_toanroirac
             {
                 edge.IsUndirected = this.IsUndirected;
                 _edgeList.Add(edge);
-                OnGraphChange(null, null);
-            }
-        }
-        public void DeleteNode(Node node)
-        {
-            if (_nodeList.Contains(node))
-            {
-                _edgeList.RemoveBy(node);
-                _nodeList.Remove(node);
-                ResetSubNode();
                 OnGraphChange(null, null);
             }
         }
@@ -230,6 +232,7 @@ namespace graph_toanroirac
         {
             _edgeList.Clear();
             _nodeList.Clear();
+            OnGraphChange(null, null);
         }
         public void ReadFile(string filename)
         {
@@ -250,7 +253,7 @@ namespace graph_toanroirac
         protected virtual void OnGraphChange(object sender, EventArgs e)
         {
             if (GraphChange != null)
-                GraphChange(sender, null);
+                GraphChange(sender, e);
         }
     }
 }

@@ -126,6 +126,8 @@ namespace graph_toanroirac
                             if (this.Tool == DrawingTools.Edge)
                             {
                                 _graph.edgeCollection.SelectedIndex = count;
+                                Edge edgetemp = _graph.edgeCollection[count];
+                                OnDrawEvent(edgetemp, null);
                             }
                             else if (this.Tool == DrawingTools.Eraser)
                             {
@@ -252,6 +254,7 @@ namespace graph_toanroirac
                     {
                         Edge edge = new Edge(_startNode, node.node);
                         OnDrawEvent(edge, null);
+                        if(edge.weight!=0)
                         _graph.AddEdge(edge);
                     }
                 }
@@ -270,23 +273,7 @@ namespace graph_toanroirac
         {
             if (_selectedIndex < 0)
                 return;
-            int i = 0;
-            while (i < _graph.edgeCollection.Count)
-            {
-                Edge edge = _graph.edgeCollection[i];
-                if (edge.end.Index == _selectedIndex || edge.start.Index == _selectedIndex)
-                {
-                    DeleteEdgeAt(i);
-                }
-                else
-                {
-                    if (edge.start.Index >= _selectedIndex)
-                        edge.start.Index--;
-                    if (edge.end.Index >= _selectedIndex)
-                        edge.end.Index--;
-                    i++;
-                }
-            }
+            _graph.DeleteNode(SelectedNode.node);
 
             NodeUI n = this.Controls[_selectedIndex] as NodeUI;
             n.DoRemovingAnimation();

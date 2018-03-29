@@ -91,7 +91,6 @@ namespace graph_toanroirac
         /// </summary>
         public void ReadMatrix(string path = "matrix.txt")
         {
-
             if (File.Exists(path))
             {
                 n = 0;
@@ -100,17 +99,20 @@ namespace graph_toanroirac
                 {
                     // Doc file, lay tung hang roi tach tung cot cho vao ma tran
                     string file = sr.ReadToEnd();
-                    while (file.IndexOf("\r") > 0)
-                        file = file.Remove(file.IndexOf("\r"), 1);
-                    string[] rows = file.Split('\n');
-                    n = rows.Count();
-                    matrix = new int[n, n];
-                    for (int i = 0; i < rows.Count(); i++)
+                    if (file != "")
                     {
-                        string[] columns = rows[i].Trim().Split(' ');
-                        for (int j = 0; j < columns.Count(); j++)
+                        while (file.IndexOf("\r") > 0)
+                            file = file.Remove(file.IndexOf("\r"), 1);
+                        string[] rows = file.Split('\n');
+                        n = rows.Count();
+                        matrix = new int[n, n];
+                        for (int i = 0; i < rows.Count(); i++)
                         {
-                             matrix[i, j] = int.Parse(columns[j]);
+                            string[] columns = rows[i].Trim().Split(' ');
+                            for (int j = 0; j < columns.Count(); j++)
+                            {
+                                matrix[i, j] = int.Parse(columns[j]);
+                            }
                         }
                     }
                 }
@@ -123,12 +125,16 @@ namespace graph_toanroirac
         /// <param name="n">số lượng phần tử</param>
         public void WriteMarix(string path = "matrix.txt")
         {
+            if (File.Exists(path))
+            {
+                File.WriteAllText(path, string.Empty);
+            }
+            else
+            {
+                File.Create(path).Close();
+            }
             if (matrix.Length > 0)
             {
-                if (File.Exists(path))
-                {
-                    File.WriteAllText(path, string.Empty);
-                }
                 FileStream inFile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
                 using (var sw = new StreamWriter(inFile))
                 {

@@ -13,6 +13,13 @@ namespace graph_toanroirac
     {
         string filematrix = "matrix.txt";
         string filePoint = "point.txt";
+        Graph graph
+        {
+            get
+            {
+                return graphUI1.Data;
+            }
+        }
         public Form1()
         {
             InitializeComponent();
@@ -30,25 +37,26 @@ namespace graph_toanroirac
             LoadListEdge();
         }
 
-        private void GraphUI1_DrawEvent(object sender,EventArgs e)
+        private void GraphUI1_DrawEvent(object sender, EventArgs e)
         {
             Edge edge = sender as Edge;
+
             Form2 f = new Form2();
+            f.weight = edge.weight;
             f.ShowDialog();
-            edge.weight = f.weight;
+            edge.weight = f.weight; 
         }
 
         private void btnDeleteLastestEdge_Click(object sender, EventArgs e)
         {
             graphUI1.DeleteLastestEdge();
-            LoadListEdge();
         }
         protected override void OnLoad(EventArgs e)
         {
             LoadGrap(filematrix, filePoint);
             base.OnShown(e);
         }
-        void LoadGrap(string matrix,string point)
+        void LoadGrap(string matrix, string point)
         {
             GraphData data = graphUI1.LoadGraph(matrix, point);
             chkUndirectedGrapth.Checked = data.IsUndirectedGraph;
@@ -96,13 +104,13 @@ namespace graph_toanroirac
         private void btnClearEdge_Click(object sender, EventArgs e)
         {
             graphUI1.ClearEdges();
-            LoadListEdge();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             graphUI1.Clear();
         }
+
         private void btnDeleteNode_Click(object sender, EventArgs e)
         {
             graphUI1.DeleteSelectedNode();
@@ -140,7 +148,28 @@ namespace graph_toanroirac
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            LoadGrap(filematrix, filePoint);
+            string file = filematrix;
+            using (OpenFileDialog open = new OpenFileDialog())
+            {
+                open.Title = "Chọn file text đuôi .txt";
+                open.Filter = "All Files|*.*";
+                if (open.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (open.FileName.Contains(".txt"))
+                        {
+                            file = open.FileName;
+                            graphUI1.Clear();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Đã xảy ra lỗi" + ex.Message);
+                    }
+                }
+            }
+            LoadGrap(file, filePoint);
             graphUI1.Invalidate();
         }
 
@@ -169,7 +198,6 @@ namespace graph_toanroirac
                 edge.IsSelected = true;
                 graphUI1.Invalidate();
             }
-
         }
 
         private void edit_edge_btn_Click(object sender, EventArgs e)
@@ -192,7 +220,6 @@ namespace graph_toanroirac
             if (edge != null)
             {
                 graphUI1.DeleteEdge(edge);
-                LoadListEdge();
                 graphUI1.Invalidate();
             }
         }

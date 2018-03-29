@@ -28,14 +28,15 @@ namespace graph_toanroirac
                 textBox1.Text = value.ToString();
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        
+        private void Button1_Click(object sender, EventArgs e)
         {
-            weight = int.Parse(textBox1.Text);
             this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            weight = 0;
             this.Close();
         }
     }
