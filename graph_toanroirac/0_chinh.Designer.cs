@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            graph_toanroirac.Graph graph1 = new graph_toanroirac.Graph();
-            graph_toanroirac.EdgeCollection edgeCollection1 = new graph_toanroirac.EdgeCollection();
-            graph_toanroirac.NodeCollection nodeCollection1 = new graph_toanroirac.NodeCollection();
+            graph_toanroirac.Graph graph2 = new graph_toanroirac.Graph();
+            graph_toanroirac.EdgeCollection edgeCollection2 = new graph_toanroirac.EdgeCollection();
+            graph_toanroirac.NodeCollection nodeCollection2 = new graph_toanroirac.NodeCollection();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
@@ -57,7 +57,14 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.edit_edge_btn = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn_run = new System.Windows.Forms.Button();
+            this.btn_next = new System.Windows.Forms.Button();
             this.graphUI1 = new graph_toanroirac.GraphUI();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.rd_prim = new System.Windows.Forms.RadioButton();
+            this.rd_Kruskal = new System.Windows.Forms.RadioButton();
+            this.btn_end = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -65,6 +72,8 @@
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -343,14 +352,45 @@
             this.toolStripButton4.ToolTipText = "Eraser";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.btn_run);
+            this.flowLayoutPanel1.Controls.Add(this.btn_next);
+            this.flowLayoutPanel1.Controls.Add(this.btn_end);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(745, 286);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(147, 100);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // btn_run
+            // 
+            this.btn_run.Location = new System.Drawing.Point(3, 3);
+            this.btn_run.Name = "btn_run";
+            this.btn_run.Size = new System.Drawing.Size(65, 32);
+            this.btn_run.TabIndex = 14;
+            this.btn_run.Text = "Run";
+            this.btn_run.UseVisualStyleBackColor = true;
+            this.btn_run.VisibleChanged += new System.EventHandler(this.btn_run_VisibleChanged);
+            this.btn_run.Click += new System.EventHandler(this.btn_run_Click);
+            // 
+            // btn_next
+            // 
+            this.btn_next.Location = new System.Drawing.Point(74, 3);
+            this.btn_next.Name = "btn_next";
+            this.btn_next.Size = new System.Drawing.Size(65, 32);
+            this.btn_next.TabIndex = 15;
+            this.btn_next.Text = "Next";
+            this.btn_next.UseVisualStyleBackColor = true;
+            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
+            // 
             // graphUI1
             // 
             this.graphUI1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            edgeCollection1.SelectedIndex = 0;
-            graph1.edgeCollection = edgeCollection1;
-            nodeCollection1.SelectedIndex = 0;
-            graph1.nodeCollection = nodeCollection1;
-            this.graphUI1.Data = graph1;
+            edgeCollection2.SelectedIndex = 0;
+            graph2.edgeCollection = edgeCollection2;
+            nodeCollection2.SelectedIndex = 0;
+            graph2.nodeCollection = nodeCollection2;
+            this.graphUI1.Data = graph2;
             this.graphUI1.IsUndirectedGraph = false;
             this.graphUI1.Location = new System.Drawing.Point(273, 12);
             this.graphUI1.Name = "graphUI1";
@@ -359,11 +399,56 @@
             this.graphUI1.Text = "graphUI1";
             this.graphUI1.SelectedNodeChanged += new System.EventHandler(this.graphUI1_SelectedNodeChanged);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.rd_Kruskal);
+            this.panel2.Controls.Add(this.rd_prim);
+            this.panel2.Location = new System.Drawing.Point(898, 286);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(115, 100);
+            this.panel2.TabIndex = 12;
+            // 
+            // rd_prim
+            // 
+            this.rd_prim.AutoSize = true;
+            this.rd_prim.Location = new System.Drawing.Point(22, 18);
+            this.rd_prim.Name = "rd_prim";
+            this.rd_prim.Size = new System.Drawing.Size(45, 17);
+            this.rd_prim.TabIndex = 0;
+            this.rd_prim.TabStop = true;
+            this.rd_prim.Text = "Prim";
+            this.rd_prim.UseVisualStyleBackColor = true;
+            this.rd_prim.CheckedChanged += new System.EventHandler(this.rd_prim_CheckedChanged);
+            // 
+            // rd_Kruskal
+            // 
+            this.rd_Kruskal.AutoSize = true;
+            this.rd_Kruskal.Location = new System.Drawing.Point(22, 55);
+            this.rd_Kruskal.Name = "rd_Kruskal";
+            this.rd_Kruskal.Size = new System.Drawing.Size(60, 17);
+            this.rd_Kruskal.TabIndex = 1;
+            this.rd_Kruskal.TabStop = true;
+            this.rd_Kruskal.Text = "Kruskal";
+            this.rd_Kruskal.UseVisualStyleBackColor = true;
+            this.rd_Kruskal.CheckedChanged += new System.EventHandler(this.rd_Kruskal_CheckedChanged);
+            // 
+            // btn_end
+            // 
+            this.btn_end.Location = new System.Drawing.Point(3, 41);
+            this.btn_end.Name = "btn_end";
+            this.btn_end.Size = new System.Drawing.Size(65, 32);
+            this.btn_end.TabIndex = 16;
+            this.btn_end.Text = "End";
+            this.btn_end.UseVisualStyleBackColor = true;
+            this.btn_end.Click += new System.EventHandler(this.btn_end_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1020, 440);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.list_edge);
             this.Controls.Add(this.panel1);
@@ -382,6 +467,9 @@
             this.groupBox4.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -414,5 +502,12 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton edit_edge_btn;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btn_run;
+        private System.Windows.Forms.Button btn_next;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.RadioButton rd_Kruskal;
+        private System.Windows.Forms.RadioButton rd_prim;
+        private System.Windows.Forms.Button btn_end;
     }
 }

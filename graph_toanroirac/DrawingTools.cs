@@ -5,6 +5,12 @@ using System.Text;
 
 namespace graph_toanroirac
 {
+    enum AlgorithmTools
+    {
+        None=0,
+        Prim,
+        Kruskal,
+    }
     enum DrawingTools
     {
         Select = 0,

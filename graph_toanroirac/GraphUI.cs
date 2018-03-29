@@ -15,6 +15,7 @@ namespace graph_toanroirac
         public event EventHandler SelectedNodeChanged;
         public event EventHandler DrawEvent;
         public event EventHandler GraphChange;
+        public EdgeCollection _list = new EdgeCollection();
         Graph _graph;
         public Graph Data
         {
@@ -88,7 +89,7 @@ namespace graph_toanroirac
             _graph.GraphChange += GraphChange;
             //Reset();
         }
-        
+
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -173,6 +174,7 @@ namespace graph_toanroirac
         public void Reset()
         {
             _graph.Reset();
+            _list.Clear();
             Invalidate();
         }
 
@@ -254,8 +256,8 @@ namespace graph_toanroirac
                     {
                         Edge edge = new Edge(_startNode, node.node);
                         OnDrawEvent(edge, null);
-                        if(edge.weight!=0)
-                        _graph.AddEdge(edge);
+                        if (edge.weight != 0)
+                            _graph.AddEdge(edge);
                     }
                 }
                 Invalidate();
@@ -386,6 +388,25 @@ namespace graph_toanroirac
             }
             else
             {
+                if (_list != null && (_list.Contains(item)))
+                {
+                    if (item.IsSelected)
+                    {
+                        var p = (Pen)_penEdge.Clone();
+                        p.Color = Color.Red;
+                        p.DashStyle = DashStyle.Dash;
+                        g.DrawLine(p, p1, p2);
+                    }
+                    else
+                    {
+
+                        Pen p = (Pen)_penEdge.Clone();
+                        p.Color = Color.Green;
+                        p.DashStyle = DashStyle.Dash;
+                        g.DrawLine(p, p1, p2);
+                    }
+                }
+                else
                 if (item.IsSelected)
                 {
                     var hPen = (Pen)_penEdge.Clone();
@@ -484,13 +505,16 @@ namespace graph_toanroirac
         }
         public void Kruskal()
         {
-            _graph.Kruskal();
+            _list.Clear();
+            _list=_graph.Kruskal();
             Invalidate();
         }
         public void Prim(Node node)
         {
-            _graph.Prim(node);
+            _list.Clear();
+            _list = _graph.Prim(node);
             Invalidate();
         }
+
     }
 }

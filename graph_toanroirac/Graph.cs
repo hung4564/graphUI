@@ -48,8 +48,9 @@ namespace graph_toanroirac
         /// <summary>
         /// Tìm cây khung nhỏ nhất theo thuật toán Krukal
         /// </summary>
-        public void Kruskal()
+        public EdgeCollection Kruskal()
         {
+            EdgeCollection listResult = new EdgeCollection();
             _edgeList.Sort();
             //danh dau nhan i cho dinh i
             int[] label = new int[n];
@@ -63,7 +64,7 @@ namespace graph_toanroirac
             {
                 if (label[item.start.Index] != label[item.end.Index])
                 {
-                    item.IsSelected = true;
+                    listResult.Add(item);
                     if (label[item.start.Index] > label[item.end.Index])
                     {
                         lab1 = label[item.end.Index];
@@ -80,12 +81,14 @@ namespace graph_toanroirac
                     }
                 }
             }
+            return listResult;
         }
         /// <summary>
         /// Tìm cây khung nhỏ nhất theo thuật toán Prim
         /// </summary>
-        public void Prim(Node startNode = null)
+        public EdgeCollection Prim(Node startNode = null)
         {
+            EdgeCollection listResult = new EdgeCollection();
             if (startNode == null) startNode = _nodeList[0];
             Node node = startNode;
             node.IsVisit = true;
@@ -109,15 +112,16 @@ namespace graph_toanroirac
                 }
                 if (edge != null)
                 {
-                    edge.IsSelected = true;
+                    listResult.Add(edge);
                     edge.start.IsVisit = true;
                     edge.end.IsVisit = true;
                     nodes.Add(edge.start);
                     nodes.Add(edge.end);
                 }
             }
+            return listResult;
         }
-        EdgeCollection GetAllEdgeFromNodes(NodeCollection nodes)
+        public EdgeCollection GetAllEdgeFromNodes(NodeCollection nodes)
         {
             EdgeCollection edgeCollection = new EdgeCollection();
             foreach (Edge edge in _edgeList)
