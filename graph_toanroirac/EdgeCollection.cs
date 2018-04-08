@@ -56,6 +56,10 @@ namespace graph_toanroirac
                     {
                         edgeCollection.Add(item);
                     }
+                    else if(item.IsUndirected && item.end == start)
+                    {
+                        edgeCollection.Add(item);
+                    }
                 }
                 if (edgeCollection.Count > 0)
                     return edgeCollection;
@@ -151,5 +155,7 @@ namespace graph_toanroirac
                 item.Reset();
             }
         }
+
+        
     }
 }

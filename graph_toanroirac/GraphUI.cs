@@ -105,47 +105,48 @@ namespace graph_toanroirac
                         MessageBox.Show("You can only add " + m + " nodes to graph");
                         return;
                     }
-                    AddNewNode(e.Location);
+                    NodeUI n=CreateNewNode(e.Location);
+                    _graph.AddNode(n.node);
 
                 }
-                else
-                if (this.Tool == DrawingTools.Edge || this.Tool == DrawingTools.Eraser)
-                {
-                    int count = 0;
-                    foreach (Edge edge in _graph.edgeCollection)
-                    {
-                        //Vi tri bat dau cua canh
-                        var start = this.Controls[edge.start.Index].Location;
-                        start.X += NODE_RADIUS;
-                        start.Y += NODE_RADIUS;
+                //else
+                //if (this.Tool == DrawingTools.Edge || this.Tool == DrawingTools.Eraser)
+                //{
+                //    int count = 0;
+                //    foreach (Edge edge in _graph.edgeCollection)
+                //    {
+                //        //Vi tri bat dau cua canh
+                //        var start = this.Controls[edge.start.Index].Location;
+                //        start.X += NODE_RADIUS;
+                //        start.Y += NODE_RADIUS;
 
-                        var end = this.Controls[edge.end.Index].Location;
-                        end.X += NODE_RADIUS;
-                        end.Y += NODE_RADIUS;
-                        if (Edge.Contains(start, end, e.Location))
-                        {
-                            if (this.Tool == DrawingTools.Edge)
-                            {
-                                _graph.edgeCollection.SelectedIndex = count;
-                                Edge edgetemp = _graph.edgeCollection[count];
-                                OnDrawEvent(edgetemp, null);
-                            }
-                            else if (this.Tool == DrawingTools.Eraser)
-                            {
-                                _graph.edgeCollection.RemoveAt(count);
-                                _graph.edgeCollection.SelectedIndex = -1;
-                            }
-                            this.Invalidate();
+                //        var end = this.Controls[edge.end.Index].Location;
+                //        end.X += NODE_RADIUS;
+                //        end.Y += NODE_RADIUS;
+                //        if (Edge.Contains(start, end, e.Location))
+                //        {
+                //            if (this.Tool == DrawingTools.Edge)
+                //            {
+                //                _graph.edgeCollection.SelectedIndex = count;
+                //                Edge edgetemp = _graph.edgeCollection[count];
+                //                OnDrawEvent(edgetemp, null);
+                //            }
+                //            else if (this.Tool == DrawingTools.Eraser)
+                //            {
+                //                _graph.edgeCollection.RemoveAt(count);
+                //                _graph.edgeCollection.SelectedIndex = -1;
+                //            }
+                //            this.Invalidate();
 
-                            break;
-                        }
-                        count++;
-                    }
-                }
-                else if (this.Tool == DrawingTools.Eraser) // delete edge
-                {
+                //            break;
+                //        }
+                //        count++;
+                //    }
+                //}
+                //else if (this.Tool == DrawingTools.Eraser) // delete edge
+                //{
 
-                }
+                //}
             }
             //OnContentChanged(null, null);
             base.OnMouseDown(e);
@@ -174,7 +175,6 @@ namespace graph_toanroirac
         public void Reset()
         {
             _graph.Reset();
-            _list.Clear();
             Invalidate();
         }
 
@@ -275,7 +275,6 @@ namespace graph_toanroirac
         {
             if (_selectedIndex < 0)
                 return;
-            _graph.DeleteNode(SelectedNode.node);
 
             NodeUI n = this.Controls[_selectedIndex] as NodeUI;
             n.DoRemovingAnimation();
@@ -309,7 +308,7 @@ namespace graph_toanroirac
             }
             OnSeletedNodeChanged(null, null);
         }
-        private void AddNewNode(Point location)
+        private NodeUI CreateNewNode(Point location)
         {
             NodeUI n = new NodeUI();
             n.Index = this.Controls.Count;
@@ -319,10 +318,10 @@ namespace graph_toanroirac
             n.DoCreatingAnimation();
             n.Width = NODE_DIAMETER;
             n.Height = NODE_DIAMETER;
-            _graph.AddNode(n.node);
             n.MouseDown += new MouseEventHandler(Node_MouseDown);
             n.MouseMove += new MouseEventHandler(Node_MouseMove);
             n.MouseUp += new MouseEventHandler(Node_MouseUp);
+            return n;
         }
         protected override void OnResize(EventArgs e)
         {
@@ -466,23 +465,15 @@ namespace graph_toanroirac
                 _graph = data.graph;
                 _graph.GraphChange += _graph_GraphChange;
                 _graph.IsUndirected = data.IsUndirectedGraph;
+                Point point;
                 for (int i = 0; i < data.graph.nodeCollection.Count; i++)
                 {
-                    NodeUI n = new NodeUI();
-                    n.Index = this.Controls.Count;
-                    n.DisplayName = (char)(n.Index + 'A');
                     if (data.graph.nodeCollection.Count <= data.NodeLocations.Count)
-                        n.Location = data.NodeLocations[i];
+                        point = data.NodeLocations[i];
                     else
-                        n.Location = GetRandomLocaition();
+                        point = GetRandomLocaition();
+                    NodeUI n = CreateNewNode(point);
                     n.node = data.graph.nodeCollection[i];
-                    this.Controls.Add(n);
-                    n.DoCreatingAnimation();
-                    n.Width = NODE_DIAMETER;
-                    n.Height = NODE_DIAMETER;
-                    n.MouseDown += new MouseEventHandler(Node_MouseDown);
-                    n.MouseMove += new MouseEventHandler(Node_MouseMove);
-                    n.MouseUp += new MouseEventHandler(Node_MouseUp);
                 }
                 return data;
 
@@ -505,16 +496,52 @@ namespace graph_toanroirac
         }
         public void Kruskal()
         {
-            _list.Clear();
-            _list=_graph.Kruskal();
+            _list = _graph.Kruskal();
             Invalidate();
         }
         public void Prim(Node node)
         {
-            _list.Clear();
             _list = _graph.Prim(node);
             Invalidate();
         }
+        public void BFS()
+        {
+            _graph.BFS(_graph.nodeCollection[0]);
+            Invalidate();
+        }
+        public bool IsLienthong
+        {
+            get
+            {
+                return _graph.ISLienthong();
+            }
+        }
+        public bool IsHaiphia
+        {
+            get
+            {
+                return !(_graph.IsHaiPhia() == null);
+            }
+        }
 
+        public List<NodeCollection> Lienthong()
+        {
+            return _graph.Lienthong();
+        }
+        public void CreateGraphRandom(int n)
+        {
+            if (n > 0)
+            {
+                this.Controls.Clear();
+                _graph.CreatGraphRandom(n);
+                foreach (var item in _graph.nodeCollection)
+                {
+                    Point point = GetRandomLocaition();
+                    NodeUI node = CreateNewNode(point);
+                    node.node = item;
+                }
+                Invalidate();
+            }
+        }
     }
 }

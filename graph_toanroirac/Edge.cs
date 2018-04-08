@@ -64,9 +64,9 @@ namespace graph_toanroirac
         }
         public override string ToString()
         {
-            if (IsUndirected) return string.Format("{0}<->{1}:{2}", _start.Index + 1, _end.Index + 1, weight);
+            if (IsUndirected) return string.Format("{0}<->{1}:{2}", _start.Index, _end.Index, weight);
             else
-                return string.Format("{0}->{1}:{2}", _start.Index + 1, _end.Index + 1, weight);
+                return string.Format("{0}->{1}:{2}", _start.Index, _end.Index, weight);
         }
         public int CompareTo(Edge other)
         {

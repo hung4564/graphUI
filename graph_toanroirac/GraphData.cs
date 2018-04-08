@@ -33,7 +33,7 @@ namespace graph_toanroirac
                 }
             }
         }
-        public void LoadData(string filematrix, string filePoint)
+        public void LoadData(string filematrix, string filePoint=null)
         {
             graph.ReadFile(filematrix);
             IsUndirectedGraph = graph.IsUndirected;

@@ -39,13 +39,16 @@
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_haiphia = new System.Windows.Forms.Button();
+            this.btn_lienthong = new System.Windows.Forms.Button();
+            this.btn_BFS = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.btnDeleteLastestEdge = new System.Windows.Forms.Button();
+            this.btn_createGraph = new System.Windows.Forms.Button();
             this.btnClearEdge = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnChangeNodeColor = new System.Windows.Forms.Button();
@@ -60,11 +63,11 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_run = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
-            this.graphUI1 = new graph_toanroirac.GraphUI();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.rd_prim = new System.Windows.Forms.RadioButton();
-            this.rd_Kruskal = new System.Windows.Forms.RadioButton();
             this.btn_end = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.rd_Kruskal = new System.Windows.Forms.RadioButton();
+            this.rd_prim = new System.Windows.Forms.RadioButton();
+            this.graphUI1 = new graph_toanroirac.GraphUI();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -150,11 +153,14 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.btn_haiphia);
+            this.panel1.Controls.Add(this.btn_lienthong);
+            this.panel1.Controls.Add(this.btn_BFS);
             this.panel1.Controls.Add(this.btnLoad);
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Controls.Add(this.btnReset);
             this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Controls.Add(this.btnDeleteLastestEdge);
+            this.panel1.Controls.Add(this.btn_createGraph);
             this.panel1.Controls.Add(this.btnClearEdge);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.chkUndirectedGrapth);
@@ -163,6 +169,36 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(252, 360);
             this.panel1.TabIndex = 11;
+            // 
+            // btn_haiphia
+            // 
+            this.btn_haiphia.Location = new System.Drawing.Point(110, 187);
+            this.btn_haiphia.Name = "btn_haiphia";
+            this.btn_haiphia.Size = new System.Drawing.Size(87, 25);
+            this.btn_haiphia.TabIndex = 17;
+            this.btn_haiphia.Text = "Hai phía";
+            this.btn_haiphia.UseVisualStyleBackColor = true;
+            this.btn_haiphia.Click += new System.EventHandler(this.btn_haiphia_Click);
+            // 
+            // btn_lienthong
+            // 
+            this.btn_lienthong.Location = new System.Drawing.Point(110, 160);
+            this.btn_lienthong.Name = "btn_lienthong";
+            this.btn_lienthong.Size = new System.Drawing.Size(87, 25);
+            this.btn_lienthong.TabIndex = 16;
+            this.btn_lienthong.Text = "Liên thông";
+            this.btn_lienthong.UseVisualStyleBackColor = true;
+            this.btn_lienthong.Click += new System.EventHandler(this.btn_lienthong_Click);
+            // 
+            // btn_BFS
+            // 
+            this.btn_BFS.Location = new System.Drawing.Point(5, 160);
+            this.btn_BFS.Name = "btn_BFS";
+            this.btn_BFS.Size = new System.Drawing.Size(87, 25);
+            this.btn_BFS.TabIndex = 2;
+            this.btn_BFS.Text = "BFS";
+            this.btn_BFS.UseVisualStyleBackColor = true;
+            this.btn_BFS.Click += new System.EventHandler(this.btn_BFS_Click);
             // 
             // btnLoad
             // 
@@ -225,15 +261,15 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // btnDeleteLastestEdge
+            // btn_createGraph
             // 
-            this.btnDeleteLastestEdge.Location = new System.Drawing.Point(4, 52);
-            this.btnDeleteLastestEdge.Name = "btnDeleteLastestEdge";
-            this.btnDeleteLastestEdge.Size = new System.Drawing.Size(116, 29);
-            this.btnDeleteLastestEdge.TabIndex = 12;
-            this.btnDeleteLastestEdge.Text = "Delete Lastest Edge";
-            this.btnDeleteLastestEdge.UseVisualStyleBackColor = true;
-            this.btnDeleteLastestEdge.Click += new System.EventHandler(this.btnDeleteLastestEdge_Click);
+            this.btn_createGraph.Location = new System.Drawing.Point(4, 52);
+            this.btn_createGraph.Name = "btn_createGraph";
+            this.btn_createGraph.Size = new System.Drawing.Size(116, 29);
+            this.btn_createGraph.TabIndex = 12;
+            this.btn_createGraph.Text = "Create Graph";
+            this.btn_createGraph.UseVisualStyleBackColor = true;
+            this.btn_createGraph.Click += new System.EventHandler(this.btn_createGraph_Click);
             // 
             // btnClearEdge
             // 
@@ -383,6 +419,49 @@
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
+            // btn_end
+            // 
+            this.btn_end.Location = new System.Drawing.Point(3, 41);
+            this.btn_end.Name = "btn_end";
+            this.btn_end.Size = new System.Drawing.Size(65, 32);
+            this.btn_end.TabIndex = 16;
+            this.btn_end.Text = "End";
+            this.btn_end.UseVisualStyleBackColor = true;
+            this.btn_end.Click += new System.EventHandler(this.btn_end_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.rd_Kruskal);
+            this.panel2.Controls.Add(this.rd_prim);
+            this.panel2.Location = new System.Drawing.Point(898, 286);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(115, 100);
+            this.panel2.TabIndex = 12;
+            // 
+            // rd_Kruskal
+            // 
+            this.rd_Kruskal.AutoSize = true;
+            this.rd_Kruskal.Location = new System.Drawing.Point(22, 55);
+            this.rd_Kruskal.Name = "rd_Kruskal";
+            this.rd_Kruskal.Size = new System.Drawing.Size(60, 17);
+            this.rd_Kruskal.TabIndex = 1;
+            this.rd_Kruskal.TabStop = true;
+            this.rd_Kruskal.Text = "Kruskal";
+            this.rd_Kruskal.UseVisualStyleBackColor = true;
+            this.rd_Kruskal.CheckedChanged += new System.EventHandler(this.rd_Kruskal_CheckedChanged);
+            // 
+            // rd_prim
+            // 
+            this.rd_prim.AutoSize = true;
+            this.rd_prim.Location = new System.Drawing.Point(22, 18);
+            this.rd_prim.Name = "rd_prim";
+            this.rd_prim.Size = new System.Drawing.Size(45, 17);
+            this.rd_prim.TabIndex = 0;
+            this.rd_prim.TabStop = true;
+            this.rd_prim.Text = "Prim";
+            this.rd_prim.UseVisualStyleBackColor = true;
+            this.rd_prim.CheckedChanged += new System.EventHandler(this.rd_prim_CheckedChanged);
+            // 
             // graphUI1
             // 
             this.graphUI1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -398,49 +477,6 @@
             this.graphUI1.TabIndex = 0;
             this.graphUI1.Text = "graphUI1";
             this.graphUI1.SelectedNodeChanged += new System.EventHandler(this.graphUI1_SelectedNodeChanged);
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.rd_Kruskal);
-            this.panel2.Controls.Add(this.rd_prim);
-            this.panel2.Location = new System.Drawing.Point(898, 286);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(115, 100);
-            this.panel2.TabIndex = 12;
-            // 
-            // rd_prim
-            // 
-            this.rd_prim.AutoSize = true;
-            this.rd_prim.Location = new System.Drawing.Point(22, 18);
-            this.rd_prim.Name = "rd_prim";
-            this.rd_prim.Size = new System.Drawing.Size(45, 17);
-            this.rd_prim.TabIndex = 0;
-            this.rd_prim.TabStop = true;
-            this.rd_prim.Text = "Prim";
-            this.rd_prim.UseVisualStyleBackColor = true;
-            this.rd_prim.CheckedChanged += new System.EventHandler(this.rd_prim_CheckedChanged);
-            // 
-            // rd_Kruskal
-            // 
-            this.rd_Kruskal.AutoSize = true;
-            this.rd_Kruskal.Location = new System.Drawing.Point(22, 55);
-            this.rd_Kruskal.Name = "rd_Kruskal";
-            this.rd_Kruskal.Size = new System.Drawing.Size(60, 17);
-            this.rd_Kruskal.TabIndex = 1;
-            this.rd_Kruskal.TabStop = true;
-            this.rd_Kruskal.Text = "Kruskal";
-            this.rd_Kruskal.UseVisualStyleBackColor = true;
-            this.rd_Kruskal.CheckedChanged += new System.EventHandler(this.rd_Kruskal_CheckedChanged);
-            // 
-            // btn_end
-            // 
-            this.btn_end.Location = new System.Drawing.Point(3, 41);
-            this.btn_end.Name = "btn_end";
-            this.btn_end.Size = new System.Drawing.Size(65, 32);
-            this.btn_end.TabIndex = 16;
-            this.btn_end.Text = "End";
-            this.btn_end.UseVisualStyleBackColor = true;
-            this.btn_end.Click += new System.EventHandler(this.btn_end_Click);
             // 
             // Form1
             // 
@@ -490,7 +526,7 @@
         private System.Windows.Forms.Button btnDeleteNode;
         private System.Windows.Forms.CheckBox chkUndirectedGrapth;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button btnDeleteLastestEdge;
+        private System.Windows.Forms.Button btn_createGraph;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;
@@ -509,5 +545,8 @@
         private System.Windows.Forms.RadioButton rd_Kruskal;
         private System.Windows.Forms.RadioButton rd_prim;
         private System.Windows.Forms.Button btn_end;
+        private System.Windows.Forms.Button btn_BFS;
+        private System.Windows.Forms.Button btn_lienthong;
+        private System.Windows.Forms.Button btn_haiphia;
     }
 }

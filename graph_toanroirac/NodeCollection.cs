@@ -83,5 +83,38 @@ namespace graph_toanroirac
         {
             return _list.GetEnumerator();
         }
+        public static bool giao(NodeCollection nodes1,NodeCollection nodes2)
+        {
+            foreach (var node in nodes2)
+            {
+                if (nodes1.Contains(node)) return true;
+            }
+            return false;
+        }
+        public static NodeCollection hieu(NodeCollection nodes1, NodeCollection nodes2)
+        {
+            if (nodes1.Count > nodes2.Count)
+            {
+                NodeCollection result = new NodeCollection();
+                foreach (Node node in nodes1)
+                {
+                    if (!nodes2.Contains(node)) result.Add(node);
+                }
+                if (result.Count > 0) return result;
+                else return null;
+            }
+            return null;
+        }
+        public bool Equal(NodeCollection nodesother)
+        {
+            bool check = false;
+            if (_list.Count != nodesother.Count) return false;
+            foreach (Node node in nodesother)
+            {
+                if (_list.Contains(node)) check = true;
+                else return false;
+            }
+            return check;
+        }
     }
 }

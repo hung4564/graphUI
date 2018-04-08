@@ -175,7 +175,7 @@ namespace graph_toanroirac
                     }
                 }
             }
-            LoadGrap(file, filePoint);
+            LoadGrap(file, null);
             graphUI1.Invalidate();
         }
 
@@ -187,6 +187,8 @@ namespace graph_toanroirac
         private void btnResetEdge_Click(object sender, EventArgs e)
         {
             algorithmTools = AlgorithmTools.None;
+            rd_Kruskal.Checked = false;
+            rd_prim.Checked = false;
             graphUI1.Reset();
         }
 
@@ -274,13 +276,14 @@ namespace graph_toanroirac
                 GetEdge_prime();
             }
         }
-        void PrimNext()
+        bool PrimNext()
         {
             if (!graph.nodeCollection.IsAllVisit)
             {
                 graphUI1.Data.edgeCollection.Reset();
                 GetEdge_prime();
                 graphUI1.Invalidate();
+                return false;
             }
             else
             {
@@ -295,6 +298,7 @@ namespace graph_toanroirac
                 textBox.Text += text;
                 MessageBox.Show(text);
                 algorithmTools = AlgorithmTools.None;
+                return true;
             }
         }
         void GetEdge_prime()
@@ -363,7 +367,7 @@ namespace graph_toanroirac
             }
         }
         int sodem_kruskal = 0;
-        void KruskalNext()
+        bool KruskalNext()
         {
             graph.edgeCollection.Reset();
             int lab1 = 0;
@@ -382,7 +386,7 @@ namespace graph_toanroirac
                 MessageBox.Show(text);
                 textBox.Text += text;
                 algorithmTools = AlgorithmTools.None;
-                return;
+                return true;
             }
             Edge edge = list_edge.Items[sodem_kruskal] as Edge;
             text = "Kiếm tra cạnh " + edge.ToString() + "\r\n";
@@ -413,6 +417,7 @@ namespace graph_toanroirac
             }
             textBox.Text += text;
             sodem_kruskal++;
+            return false;
         }
         private void btn_next_Click(object sender, EventArgs e)
         {
@@ -422,11 +427,17 @@ namespace graph_toanroirac
             }
             else if (algorithmTools == AlgorithmTools.Prim)
             {
-                PrimNext();
+                if (PrimNext())
+                {
+                    btn_next.Visible = false;
+                }
             }
             else if (algorithmTools == AlgorithmTools.Kruskal)
             {
-                KruskalNext();
+                if (KruskalNext())
+                {
+                    btn_next.Visible = false;
+                }
                 graphUI1.Invalidate();
             }
 
@@ -436,6 +447,8 @@ namespace graph_toanroirac
         {
             list_edge.Show();
             textBox.Hide();
+            rd_Kruskal.Checked = false;
+            rd_prim.Checked = false;
             btn_run.Visible = true;
         }
         private void rd_prim_CheckedChanged(object sender, EventArgs e)
@@ -453,6 +466,41 @@ namespace graph_toanroirac
             btn_end.Visible = !btn_run.Visible;
             btn_next.Visible = !btn_run.Visible;
             panel2.Visible = btn_run.Visible;
+        }
+
+        private void btn_BFS_Click(object sender, EventArgs e)
+        {
+            graphUI1.BFS();
+        }
+
+        private void btn_lienthong_Click(object sender, EventArgs e)
+        {
+            string tb = graphUI1.IsLienthong ? "Đồ thị liên thông" : "Đồ thị không liên thông";
+            MessageBox.Show(tb);
+            List<NodeCollection> list = graphUI1.Lienthong();
+            for (int i = 0; i < list.Count; i++)
+            {
+                tb = "Thanh phan lien thong thu " + i + "\n";
+                foreach (Node node in list[i])
+                {
+                    tb += node.ToString() + "\n";
+                }
+                MessageBox.Show(tb);
+            }
+        }
+
+        private void btn_haiphia_Click(object sender, EventArgs e)
+        {
+            string tb = graphUI1.IsHaiphia ? "Đồ thị 2 phía" : "Đồ thị không 2 phía";
+            MessageBox.Show(tb);
+        }
+
+        private void btn_createGraph_Click(object sender, EventArgs e)
+        {
+            Form2 f = new Form2();
+            f.ShowDialog();
+            int n = f.weight;
+            graphUI1.CreateGraphRandom(n);
         }
     }
 }

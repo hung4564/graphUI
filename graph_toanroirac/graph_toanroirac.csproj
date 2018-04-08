@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawingTools.cs" />
+    <Compile Include="EnumTools.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="EdgeCollection.cs" />
     <Compile Include="0_chinh.cs">

@@ -18,7 +18,6 @@ namespace graph_toanroirac
         public Matrix()
         {
             this.n = 0;
-            matrix = new int[n, n];
         }
         public int this[int x, int y]
         {
@@ -148,6 +147,23 @@ namespace graph_toanroirac
                     }
                 }
             }
+        }
+        public void CreatMatrixRandom(int n)
+        {
+            matrix = new int[n, n];
+            this.n = n;
+            Random random = new Random();
+            int so;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i+1; j < n; j++)
+                {
+                    so = random.Next(0, 10) < 4?0: random.Next(0, 10);
+                    matrix[i, j] = so;
+                    matrix[j, i] = matrix[i, j];
+                }
+            }
+            XuatMatrix();
         }
     }
 }

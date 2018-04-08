@@ -50,6 +50,7 @@ namespace graph_toanroirac
         /// </summary>
         public EdgeCollection Kruskal()
         {
+            Reset();
             EdgeCollection listResult = new EdgeCollection();
             _edgeList.Sort();
             //danh dau nhan i cho dinh i
@@ -88,6 +89,7 @@ namespace graph_toanroirac
         /// </summary>
         public EdgeCollection Prim(Node startNode = null)
         {
+            Reset();
             EdgeCollection listResult = new EdgeCollection();
             if (startNode == null) startNode = _nodeList[0];
             Node node = startNode;
@@ -121,6 +123,105 @@ namespace graph_toanroirac
             }
             return listResult;
         }
+        /// <summary>
+        /// Kiểm tra tính liên thông của đồ thị
+        /// </summary>
+        /// <returns>true nếu đúng</returns>
+        public bool ISLienthong()
+        {
+            BFS(_nodeList[0]);
+            bool check = _nodeList.IsAllVisit;
+            Reset();
+            return check;
+        }
+        public List<NodeCollection> Lienthong()
+        {
+            NodeCollection nodes = _nodeList;
+            NodeCollection lienthong;
+            List<NodeCollection> list = new List<NodeCollection>();
+            while (nodes!=null)
+            {
+                lienthong = BFS(nodes[0]);
+                list.Add(lienthong);
+                nodes = NodeCollection.hieu(nodes, lienthong);
+            }
+            return list;
+        }
+        public List<NodeCollection> IsHaiPhia()
+        {
+            Reset();
+            NodeCollection phia1 = new NodeCollection();
+            NodeCollection phia2 = new NodeCollection();
+            NodeCollection T;
+            bool falg = true;
+            phia1.Add(_nodeList[0]);
+            _nodeList[0].IsVisit = true;
+            do
+            {
+                foreach (Node node in phia1)
+                {
+                    EdgeCollection edges = _edgeList[node];
+                    foreach (Edge edge in edges)
+                    {
+                        Node node_them = edge.start == node ? edge.end : edge.start;
+                        phia2.Add(node_them);
+                    }
+                }
+                T =  new NodeCollection();
+                foreach (Node node in phia2)
+                {
+                    EdgeCollection edges = _edgeList[node];
+                    foreach (Edge edge in edges)
+                    {
+                        Node node_them = edge.start == node ? edge.end : edge.start;
+                        T.Add(node_them);
+                    }
+                }
+                if (T.Equal(phia1)) break;
+                phia1 = T;
+                if (NodeCollection.giao(phia1,phia2))
+                {
+                    falg = false;
+                    break;
+                }
+            }
+            while (true);
+            if (!falg) return null;
+            return new List<NodeCollection>() { phia1, phia2 };
+        }
+        public NodeCollection BFS(Node node)
+        {
+            Reset();
+            NodeCollection edges_result = null;
+            if (n > 0)
+            {
+                edges_result = new NodeCollection();
+                edges_result.Add(node);
+                Queue<Node> queue_nodes = new Queue<Node>();
+                queue_nodes.Enqueue(node);
+                node.IsVisit = true;
+                while (queue_nodes.Count > 0)
+                {
+                    node = queue_nodes.Dequeue();
+                    EdgeCollection edges = _edgeList[node];
+                    if (edges != null)
+                    {
+                        foreach (Edge edge in edges)
+                        {
+                            Node node_them = edge.start == node ? edge.end : edge.start;
+                            if (!node_them.IsVisit)
+                            {
+                                node_them.IsVisit = true;
+                                queue_nodes.Enqueue(node_them);
+                                edges_result.Add(node_them);
+                                edge.IsSelected = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return edges_result;
+        }
         public EdgeCollection GetAllEdgeFromNodes(NodeCollection nodes)
         {
             EdgeCollection edgeCollection = new EdgeCollection();
@@ -142,6 +243,7 @@ namespace graph_toanroirac
         }
         void matrix_convert(Matrix a)
         {
+            Clear();
             for (int i = 0; i < a.n; i++)
             {
                 _nodeList.Add(new Node(i));
@@ -149,7 +251,7 @@ namespace graph_toanroirac
             for (int i = 0; i < a.n; i++)
             {
                 Node start = _nodeList[i];
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < a.n; j++)
                 {
                     if (a[i, j] != 0)
                     {
@@ -258,6 +360,12 @@ namespace graph_toanroirac
         {
             if (GraphChange != null)
                 GraphChange(sender, e);
+        }
+        public void CreatGraphRandom(int count)
+        {
+            Matrix a = new Matrix();
+            a.CreatMatrixRandom(count);
+            matrix_convert(a);
         }
     }
 }
