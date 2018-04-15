@@ -129,6 +129,7 @@ namespace graph_toanroirac
         /// <returns>true nếu đúng</returns>
         public bool ISLienthong()
         {
+            Reset();
             BFS(_nodeList[0]);
             bool check = _nodeList.IsAllVisit;
             Reset();
@@ -139,7 +140,7 @@ namespace graph_toanroirac
             NodeCollection nodes = _nodeList;
             NodeCollection lienthong;
             List<NodeCollection> list = new List<NodeCollection>();
-            while (nodes!=null)
+            while (nodes != null)
             {
                 lienthong = BFS(nodes[0]);
                 list.Add(lienthong);
@@ -167,7 +168,7 @@ namespace graph_toanroirac
                         phia2.Add(node_them);
                     }
                 }
-                T =  new NodeCollection();
+                T = new NodeCollection();
                 foreach (Node node in phia2)
                 {
                     EdgeCollection edges = _edgeList[node];
@@ -179,7 +180,7 @@ namespace graph_toanroirac
                 }
                 if (T.Equal(phia1)) break;
                 phia1 = T;
-                if (NodeCollection.giao(phia1,phia2))
+                if (NodeCollection.giao(phia1, phia2))
                 {
                     falg = false;
                     break;
@@ -222,7 +223,7 @@ namespace graph_toanroirac
             }
             return edges_result;
         }
-        public EdgeCollection GetAllEdgeFromNodes(NodeCollection nodes)
+        public EdgeCollection GetAllEdgeFromNodes(IEnumerable<Node> nodes)
         {
             EdgeCollection edgeCollection = new EdgeCollection();
             foreach (Edge edge in _edgeList)
@@ -270,6 +271,7 @@ namespace graph_toanroirac
                     break;
                 }
             }
+            xdBac_node();
         }
         Matrix graph_convert()
         {
@@ -358,6 +360,7 @@ namespace graph_toanroirac
         }
         protected virtual void OnGraphChange(object sender, EventArgs e)
         {
+            xdBac_node();
             if (GraphChange != null)
                 GraphChange(sender, e);
         }
@@ -366,6 +369,105 @@ namespace graph_toanroirac
             Matrix a = new Matrix();
             a.CreatMatrixRandom(count);
             matrix_convert(a);
+        }
+
+        private void xdBac_node()
+        {
+            //Tạm thời chỉ xd với đò thị vô hướng
+            foreach (Node node in _nodeList)
+            {
+                node.deg = 0;
+            }
+            foreach (Edge edge in _edgeList)
+            {
+                if (edge.IsUndirected)
+                {
+                    edge.start.deg++;
+                    edge.end.deg++;
+                }
+                else
+                {
+                    edge.start.deg++;
+                }
+            }
+        }
+        public int kiemtraEuler()
+        {
+            //0 là ko tồn tại, 1 là có đường đi , 2 là có chu trình
+            //ĐK có chu trình euler là ko có đỉnh bậc lẻ, có đường đi là có đúng 2 đỉnh bậc lẻ
+            if (!ISLienthong())
+                return 0;
+            xdBac_node();
+            int count_odd_node = 0;
+            foreach (Node node in _nodeList)
+            {
+                if (node.deg % 2 != 0)
+                {
+                    count_odd_node++;
+                    if (count_odd_node > 2) return 0;
+                }
+            }
+            if (count_odd_node == 0) return 2;
+            else return 1;
+        }
+        public List<Node> Euler(Node node)
+        {
+            int check = kiemtraEuler();
+            if (check == 0)
+            {
+                return null;
+            }
+            else if (check == 1)
+            {
+                if (node.deg % 2 == 0)//xác định đỉnh bậc lẻ làm đầu đường đi
+                {
+                    foreach (Node item in _nodeList)
+                    {
+                        if (item.deg % 2 != 0)
+                        {
+                            node = item;
+                            break;
+                        }
+                    }
+                }
+            }
+            return Euler_flor(node);
+        }
+        public List<Node> Euler_flor(Node start)
+        {
+            Reset();
+            //EdgeCollection result = new EdgeCollection();
+            List<Node> nodes = new List<Node>();
+            Stack<Node> stack = new Stack<Node>();
+            stack.Push(start);
+            while (stack.Count > 0)
+            {
+                Node node = stack.Peek();
+                bool has_edge = false;
+                foreach (Edge edge in _edgeList)
+                {
+                    if (edge.start == node || (edge.IsUndirected && edge.end == node))
+                        if (!edge.IsRemoving)
+                        {
+                            edge.IsRemoving = true;
+                            has_edge = true;
+                            if (edge.start == node) stack.Push(edge.end);
+                            else stack.Push(edge.start);
+                            break;
+                        }
+                }
+                if (!has_edge)
+                {
+                    node = stack.Pop();
+                    nodes.Add(node);
+                }
+            }
+            return nodes;
+            //for (int i = 0; i < nodes.Count-1; i++)
+            //{
+            //    result.Add(_edgeList[nodes[i], nodes[i + 1]]);
+            //}
+            //return result;
         }
     }
 }

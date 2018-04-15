@@ -14,7 +14,7 @@ namespace graph_toanroirac
         AlgorithmTools algorithmTools;
         string filematrix = "matrix.txt";
         string filePoint = "point.txt";
-        NodeCollection nodes = new NodeCollection();
+        List<Node> nodes = new List<Node>();
         TextBox textBox;
         int[] label;
         Graph graph
@@ -27,7 +27,7 @@ namespace graph_toanroirac
         public Form1()
         {
             InitializeComponent();
-            list_edge.FormattingEnabled = false;
+            rd_euler.FormattingEnabled = false;
             foreach (ToolStripItem item in toolStrip1.Items)
             {
                 item.Click += new EventHandler(toolStripButton_Click);
@@ -69,12 +69,12 @@ namespace graph_toanroirac
         }
         void LoadListEdge()
         {
-            list_edge.Items.Clear();
+            rd_euler.Items.Clear();
             if (graphUI1.Data != null)
             {
                 foreach (Edge item in graphUI1.Data.edgeCollection)
                 {
-                    list_edge.Items.Add(item);
+                    rd_euler.Items.Add(item);
                 }
             }
         }
@@ -127,22 +127,9 @@ namespace graph_toanroirac
             NodeUI node = graphUI1.SelectedNode;
             if (node == null)
                 return;
-            ColorDialog dlg = new ColorDialog();
-            dlg.Color = node.BackColor;
-
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Color c = dlg.Color;
-                node.BackColor = c;
-                node.ForeColor = Color.FromArgb(255 - c.R, 255 - c.G, 255 - c.B);
-
-                if (Math.Abs(c.ToArgb() - node.ForeColor.ToArgb()) < 100000)
-                {
-
-                    node.ForeColor = Color.Black;
-                }
-
-            }
+            string tb = "Đỉnh " + node.DisplayName + "\n";
+            tb += "Bậc của đỉnh là " + node.node.deg;
+            MessageBox.Show(tb);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -206,7 +193,7 @@ namespace graph_toanroirac
 
         private void list_edge_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Edge edge = list_edge.SelectedItem as Edge;
+            Edge edge = rd_euler.SelectedItem as Edge;
             if (edge != null)
             {
                 graphUI1.Reset();
@@ -217,7 +204,7 @@ namespace graph_toanroirac
 
         private void edit_edge_btn_Click(object sender, EventArgs e)
         {
-            Edge edge = list_edge.SelectedItem as Edge;
+            Edge edge = rd_euler.SelectedItem as Edge;
             if (edge != null)
             {
                 Form2 f = new Form2();
@@ -231,7 +218,7 @@ namespace graph_toanroirac
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            Edge edge = list_edge.SelectedItem as Edge;
+            Edge edge = rd_euler.SelectedItem as Edge;
             if (edge != null)
             {
                 graphUI1.DeleteEdge(edge);
@@ -257,6 +244,12 @@ namespace graph_toanroirac
                 KruskalBegin();
                 btn_run.Visible = false;
             }
+            else if (algorithmTools == AlgorithmTools.Euler)
+            {
+                MessageBox.Show("Chạy thuật toán Euler");
+                EulerBegin();
+                btn_run.Visible = false;
+            }
         }
         void PrimBegin()
         {
@@ -273,7 +266,7 @@ namespace graph_toanroirac
                 textBox.Text = text + "\r\n";
                 nodes.Add(graphUI1.SelectedNode.node);
                 graphUI1.SelectedNode.node.IsVisit = true;
-                GetEdge_prime();
+                //GetEdge_prime();
             }
         }
         bool PrimNext()
@@ -348,7 +341,7 @@ namespace graph_toanroirac
                 }
             };
             this.Controls.Add(textBox);
-            list_edge.Hide();
+            rd_euler.Hide();
         }
         void KruskalBegin()
         {
@@ -373,7 +366,7 @@ namespace graph_toanroirac
             int lab1 = 0;
             int lab2 = 0;
             string text = null;
-            if (sodem_kruskal >= graph.edgeCollection.Count)
+            if (sodem_kruskal >= graph.edgeCollection.Count|| graphUI1._list.Count==graph.n-1)
             {
 
                 graphUI1.Invalidate();
@@ -388,7 +381,7 @@ namespace graph_toanroirac
                 algorithmTools = AlgorithmTools.None;
                 return true;
             }
-            Edge edge = list_edge.Items[sodem_kruskal] as Edge;
+            Edge edge = rd_euler.Items[sodem_kruskal] as Edge;
             text = "Kiếm tra cạnh " + edge.ToString() + "\r\n";
             edge.IsSelected = true;
             if (label[edge.start.Index] != label[edge.end.Index])
@@ -419,6 +412,96 @@ namespace graph_toanroirac
             sodem_kruskal++;
             return false;
         }
+        void EulerBegin()
+        {
+            if (graphUI1.SelectedNode == null)
+            {
+                MessageBox.Show("Chọn đỉnh bắt đầu trước");
+            }
+            else
+            {
+                SetTextBox();
+                textBox.Clear();
+                graphUI1.Reset();
+                Node node = graphUI1.SelectedNode.node;
+                if (graph.kiemtraEuler() == 1)
+                {
+                    textBox.Text = "Đồ thị có đường đi euler";
+                    node = graphUI1.SelectedNode.node;
+                }
+                else if (graph.kiemtraEuler() == 2)
+                {
+                    textBox.Text = "Đồ thị có chu trình euler";
+                    foreach (Node item in graph.nodeCollection)
+                    {
+                        if (item.deg % 2 != 0)
+                        {
+                            node = item;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    textBox.Text = "Đồ thị không có đường đi hay chu trình euler";
+                    btn_next.Visible = false;
+                    return;
+                }
+                string text = "\r\n Bắt đâu từ đỉnh " + (char)('A' + node.Index);
+                textBox.Text += text + "\r\n";
+                nodes.Clear();
+                stack.Push(node);
+                EulerNext();
+            }
+        }
+        Stack<Node> stack = new Stack<Node>();
+        bool EulerNext()
+        {
+            string tb = "\r\n-----";
+            if (stack.Count == 0)
+            {
+                tb += "\r\nKết quả là:";
+                foreach (Node item in nodes)
+                {
+                    tb += (char)('A' + item.Index) + ", ";
+                }
+                textBox.Text += tb;
+                return true;
+            }
+
+            Node node = stack.Peek();
+            bool has_edge = false;
+            foreach (Edge edge in graphUI1.Data.edgeCollection)
+            {
+                if (edge.start == node || (edge.IsUndirected && edge.end == node))
+                    if (!edge.IsRemoving)
+                    {
+                        tb += "\r\nXóa bỏ cạnh: " + edge.ToString();
+                        edge.IsRemoving = true;
+                        has_edge = true;
+                        if (edge.start == node)
+                        {
+                            tb += "\r\nCho đỉnh " + (char)('A' + edge.end.Index) + " vào stack";
+                            stack.Push(edge.end);
+                        }
+                        else
+                        {
+                            tb += "\r\nCho đỉnh " + (char)('A' + edge.start.Index) + " vào stack";
+                            stack.Push(edge.start);
+                        }
+                        break;
+                    }
+            }
+            if (!has_edge)
+            {
+                tb += "\r\nĐỉnh " + (char)('A' + node.Index) + " cô lập cho vào dãy kết quả";
+                node = stack.Pop();
+                nodes.Add(node);
+            }
+            textBox.Text += tb;
+
+            return false;
+        }
         private void btn_next_Click(object sender, EventArgs e)
         {
             if (algorithmTools == AlgorithmTools.None)
@@ -440,12 +523,19 @@ namespace graph_toanroirac
                 }
                 graphUI1.Invalidate();
             }
-
+            else if (algorithmTools == AlgorithmTools.Euler)
+            {
+                if (EulerNext())
+                {
+                    btn_next.Visible = false;
+                }
+                graphUI1.Invalidate();
+            }
         }
 
         private void btn_end_Click(object sender, EventArgs e)
         {
-            list_edge.Show();
+            rd_euler.Show();
             textBox.Hide();
             rd_Kruskal.Checked = false;
             rd_prim.Checked = false;
@@ -501,6 +591,27 @@ namespace graph_toanroirac
             f.ShowDialog();
             int n = f.weight;
             graphUI1.CreateGraphRandom(n);
+        }
+
+        private void btn_euler_Click(object sender, EventArgs e)
+        {
+            string tb = "";
+            List<Node> nodes = graphUI1.Euler();
+            if (nodes != null)
+            {
+                foreach (Node node in nodes)
+                {
+                    tb += (char)('A' + node.Index) + ", ";
+                }
+            }
+            else
+                tb = "Đồ thị không có chu trình hay đường đi euler";
+            MessageBox.Show(tb);
+        }
+
+        private void rd_eule_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rd_eule.Checked) algorithmTools = AlgorithmTools.Euler;
         }
     }
 }

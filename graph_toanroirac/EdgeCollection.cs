@@ -32,7 +32,7 @@ namespace graph_toanroirac
             {
                 foreach (Edge item in _list)
                 {
-                    if (item.start == start && item.end == end)
+                    if ((item.start == start && item.end == end)||(item.IsUndirected&&item.end == start && item.start == end))
                     {
                         return item;
                     }

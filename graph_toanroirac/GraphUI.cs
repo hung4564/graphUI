@@ -109,44 +109,44 @@ namespace graph_toanroirac
                     _graph.AddNode(n.node);
 
                 }
-                //else
-                //if (this.Tool == DrawingTools.Edge || this.Tool == DrawingTools.Eraser)
-                //{
-                //    int count = 0;
-                //    foreach (Edge edge in _graph.edgeCollection)
-                //    {
-                //        //Vi tri bat dau cua canh
-                //        var start = this.Controls[edge.start.Index].Location;
-                //        start.X += NODE_RADIUS;
-                //        start.Y += NODE_RADIUS;
+                else
+                if (this.Tool == DrawingTools.Edge || this.Tool == DrawingTools.Eraser)
+                {
+                    int count = 0;
+                    foreach (Edge edge in _graph.edgeCollection)
+                    {
+                        //Vi tri bat dau cua canh
+                        var start = this.Controls[edge.start.Index].Location;
+                        start.X += NODE_RADIUS;
+                        start.Y += NODE_RADIUS;
 
-                //        var end = this.Controls[edge.end.Index].Location;
-                //        end.X += NODE_RADIUS;
-                //        end.Y += NODE_RADIUS;
-                //        if (Edge.Contains(start, end, e.Location))
-                //        {
-                //            if (this.Tool == DrawingTools.Edge)
-                //            {
-                //                _graph.edgeCollection.SelectedIndex = count;
-                //                Edge edgetemp = _graph.edgeCollection[count];
-                //                OnDrawEvent(edgetemp, null);
-                //            }
-                //            else if (this.Tool == DrawingTools.Eraser)
-                //            {
-                //                _graph.edgeCollection.RemoveAt(count);
-                //                _graph.edgeCollection.SelectedIndex = -1;
-                //            }
-                //            this.Invalidate();
+                        var end = this.Controls[edge.end.Index].Location;
+                        end.X += NODE_RADIUS;
+                        end.Y += NODE_RADIUS;
+                        if (Edge.Contains(start, end, e.Location))
+                        {
+                            if (this.Tool == DrawingTools.Edge)
+                            {
+                                _graph.edgeCollection.SelectedIndex = count;
+                                Edge edgetemp = _graph.edgeCollection[count];
+                                OnDrawEvent(edgetemp, null);
+                            }
+                            else if (this.Tool == DrawingTools.Eraser)
+                            {
+                                _graph.edgeCollection.RemoveAt(count);
+                                _graph.edgeCollection.SelectedIndex = -1;
+                            }
+                            this.Invalidate();
 
-                //            break;
-                //        }
-                //        count++;
-                //    }
-                //}
-                //else if (this.Tool == DrawingTools.Eraser) // delete edge
-                //{
+                            break;
+                        }
+                        count++;
+                    }
+                }
+                else if (this.Tool == DrawingTools.Eraser) // delete edge
+                {
 
-                //}
+                }
             }
             //OnContentChanged(null, null);
             base.OnMouseDown(e);
@@ -542,6 +542,16 @@ namespace graph_toanroirac
                 }
                 Invalidate();
             }
+        }
+        public List<Node> Euler()
+        {
+            Node node;
+            if (SelectedNode == null)
+                node = _graph.nodeCollection[0];
+            else
+                node = SelectedNode.node;
+            Invalidate();
+            return _graph.Euler(node);
         }
     }
 }

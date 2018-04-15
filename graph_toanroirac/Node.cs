@@ -9,6 +9,7 @@ namespace graph_toanroirac
     {
         public int Index { get; set; }
         public bool IsVisit;
+        public int deg;
         public Node(int Index)
         {
             this.Index = Index;

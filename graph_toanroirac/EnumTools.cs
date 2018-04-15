@@ -10,6 +10,7 @@ namespace graph_toanroirac
         None=0,
         Prim,
         Kruskal,
+        Euler
     }
     enum DrawingTools
     {

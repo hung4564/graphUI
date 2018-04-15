@@ -51,11 +51,11 @@
             this.btn_createGraph = new System.Windows.Forms.Button();
             this.btnClearEdge = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnChangeNodeColor = new System.Windows.Forms.Button();
+            this.btn_info = new System.Windows.Forms.Button();
             this.btnDeleteNode = new System.Windows.Forms.Button();
             this.chkUndirectedGrapth = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.list_edge = new System.Windows.Forms.ListBox();
+            this.rd_euler = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.edit_edge_btn = new System.Windows.Forms.ToolStripButton();
@@ -67,7 +67,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.rd_Kruskal = new System.Windows.Forms.RadioButton();
             this.rd_prim = new System.Windows.Forms.RadioButton();
+            this.btn_euler = new System.Windows.Forms.Button();
             this.graphUI1 = new graph_toanroirac.GraphUI();
+            this.rd_eule = new System.Windows.Forms.RadioButton();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -232,11 +234,12 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btn_euler);
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.button3);
-            this.groupBox3.Location = new System.Drawing.Point(110, 254);
+            this.groupBox3.Location = new System.Drawing.Point(118, 244);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(109, 82);
+            this.groupBox3.Size = new System.Drawing.Size(109, 113);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Thuật toán";
@@ -283,7 +286,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnChangeNodeColor);
+            this.groupBox1.Controls.Add(this.btn_info);
             this.groupBox1.Controls.Add(this.btnDeleteNode);
             this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(3, 254);
@@ -293,15 +296,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Node Options";
             // 
-            // btnChangeNodeColor
+            // btn_info
             // 
-            this.btnChangeNodeColor.Location = new System.Drawing.Point(14, 50);
-            this.btnChangeNodeColor.Name = "btnChangeNodeColor";
-            this.btnChangeNodeColor.Size = new System.Drawing.Size(87, 25);
-            this.btnChangeNodeColor.TabIndex = 1;
-            this.btnChangeNodeColor.Text = "Change Color";
-            this.btnChangeNodeColor.UseVisualStyleBackColor = true;
-            this.btnChangeNodeColor.Click += new System.EventHandler(this.btnChangeNodeColor_Click);
+            this.btn_info.Location = new System.Drawing.Point(14, 50);
+            this.btn_info.Name = "btn_info";
+            this.btn_info.Size = new System.Drawing.Size(87, 25);
+            this.btn_info.TabIndex = 1;
+            this.btn_info.Text = "Info Node";
+            this.btn_info.UseVisualStyleBackColor = true;
+            this.btn_info.Click += new System.EventHandler(this.btnChangeNodeColor_Click);
             // 
             // btnDeleteNode
             // 
@@ -333,14 +336,14 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // list_edge
+            // rd_euler
             // 
-            this.list_edge.FormattingEnabled = true;
-            this.list_edge.Location = new System.Drawing.Point(745, 68);
-            this.list_edge.Name = "list_edge";
-            this.list_edge.Size = new System.Drawing.Size(263, 199);
-            this.list_edge.TabIndex = 1;
-            this.list_edge.SelectedIndexChanged += new System.EventHandler(this.list_edge_SelectedIndexChanged);
+            this.rd_euler.FormattingEnabled = true;
+            this.rd_euler.Location = new System.Drawing.Point(745, 68);
+            this.rd_euler.Name = "rd_euler";
+            this.rd_euler.Size = new System.Drawing.Size(263, 199);
+            this.rd_euler.TabIndex = 1;
+            this.rd_euler.SelectedIndexChanged += new System.EventHandler(this.list_edge_SelectedIndexChanged);
             // 
             // groupBox4
             // 
@@ -431,6 +434,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.rd_eule);
             this.panel2.Controls.Add(this.rd_Kruskal);
             this.panel2.Controls.Add(this.rd_prim);
             this.panel2.Location = new System.Drawing.Point(898, 286);
@@ -441,7 +445,7 @@
             // rd_Kruskal
             // 
             this.rd_Kruskal.AutoSize = true;
-            this.rd_Kruskal.Location = new System.Drawing.Point(22, 55);
+            this.rd_Kruskal.Location = new System.Drawing.Point(22, 41);
             this.rd_Kruskal.Name = "rd_Kruskal";
             this.rd_Kruskal.Size = new System.Drawing.Size(60, 17);
             this.rd_Kruskal.TabIndex = 1;
@@ -462,6 +466,16 @@
             this.rd_prim.UseVisualStyleBackColor = true;
             this.rd_prim.CheckedChanged += new System.EventHandler(this.rd_prim_CheckedChanged);
             // 
+            // btn_euler
+            // 
+            this.btn_euler.Location = new System.Drawing.Point(14, 81);
+            this.btn_euler.Name = "btn_euler";
+            this.btn_euler.Size = new System.Drawing.Size(87, 25);
+            this.btn_euler.TabIndex = 2;
+            this.btn_euler.Text = "Euler";
+            this.btn_euler.UseVisualStyleBackColor = true;
+            this.btn_euler.Click += new System.EventHandler(this.btn_euler_Click);
+            // 
             // graphUI1
             // 
             this.graphUI1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -478,6 +492,18 @@
             this.graphUI1.Text = "graphUI1";
             this.graphUI1.SelectedNodeChanged += new System.EventHandler(this.graphUI1_SelectedNodeChanged);
             // 
+            // rd_eule
+            // 
+            this.rd_eule.AutoSize = true;
+            this.rd_eule.Location = new System.Drawing.Point(22, 64);
+            this.rd_eule.Name = "rd_eule";
+            this.rd_eule.Size = new System.Drawing.Size(49, 17);
+            this.rd_eule.TabIndex = 2;
+            this.rd_eule.TabStop = true;
+            this.rd_eule.Text = "Euler";
+            this.rd_eule.UseVisualStyleBackColor = true;
+            this.rd_eule.CheckedChanged += new System.EventHandler(this.rd_eule_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,7 +512,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.list_edge);
+            this.Controls.Add(this.rd_euler);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.graphUI1);
@@ -522,7 +548,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnClearEdge;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnChangeNodeColor;
+        private System.Windows.Forms.Button btn_info;
         private System.Windows.Forms.Button btnDeleteNode;
         private System.Windows.Forms.CheckBox chkUndirectedGrapth;
         private System.Windows.Forms.Button button2;
@@ -533,7 +559,7 @@
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.ListBox list_edge;
+        private System.Windows.Forms.ListBox rd_euler;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton edit_edge_btn;
@@ -548,5 +574,7 @@
         private System.Windows.Forms.Button btn_BFS;
         private System.Windows.Forms.Button btn_lienthong;
         private System.Windows.Forms.Button btn_haiphia;
+        private System.Windows.Forms.Button btn_euler;
+        private System.Windows.Forms.RadioButton rd_eule;
     }
 }
